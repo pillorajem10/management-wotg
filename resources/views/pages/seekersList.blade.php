@@ -3,7 +3,7 @@
 @section('title', 'Seekers List')
 
 @section('styles')
-    <link rel="stylesheet" href="{{ asset('css/seekersList.css?v=1.2') }}">
+    <link rel="stylesheet" href="{{ asset('css/seekersList.css?v=1.0') }}">
 @endsection
 
 @section('content')
@@ -24,10 +24,9 @@
             <table class="seeker-table">
                 <thead>
                     <tr>
-                        <th>Select</th>
                         <th>First Name</th>
                         <th>Last Name</th>
-                        <th>Email</th>
+                        <th>Assigned Missionary</th>
                         <th>Status</th>
                         <th>Actions</th>
                     </tr>
@@ -35,12 +34,9 @@
                 <tbody>
                     @foreach($seekers as $seeker)
                     <tr>
-                        <td>
-                            <input type="checkbox" name="seeker_ids[]" value="{{ $seeker->id }}" class="seeker-checkbox">
-                        </td>
                         <td>{{ $seeker->seeker_fname }}</td>
                         <td>{{ $seeker->seeker_lname }}</td>
-                        <td>{{ $seeker->seeker_email }}</td>
+                        <td>{{ $seeker->missionary ? $seeker->missionary->user_fname . ' ' . $seeker->missionary->user_lname : 'No Assigned Missionary' }}</td>
                         <td>{{ $seeker->seeker_status }}</td>
                         <td>
                             <a href="{{ route('seekers.view', $seeker->id) }}" class="view-button">View</a>
@@ -50,24 +46,5 @@
                 </tbody>
             </table>            
         </div>
-
-        <button id="openModal" class="btn btn-custom">Open Modal</button>
-
-        <!-- Modal Structure -->
-        <div id="nameModal" class="modal" style="display:none;">
-            <div class="modal-content">
-                <span class="close-button" id="closeModal">&times;</span>
-                <h2>Send Email to Selected Seekers</h2>
-        
-                <form id="contactForm" action="{{ route('seekers.sendEmail') }}" method="POST">
-                    @csrf
-                    <input type="text" id="subject" name="subject" placeholder="Subject" required>
-                    <textarea id="body" name="body" placeholder="Body" required></textarea>
-                    <button type="submit" class="btn btn-custom">Submit</button>
-                </form>                             
-            </div>
-        </div>
-
-        <script src="{{ asset('js/seekers.js?v=1.2') }}"></script>
     </div>
 @endsection

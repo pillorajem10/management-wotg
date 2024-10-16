@@ -30,10 +30,14 @@ class Seeker extends Model
         'seeker_catch_from',
     ];
 
-    // Optionally, you can define any casts if needed
     protected $casts = [
         'seeker_age' => 'integer',
-        'seeker_missionary' => 'string', // or 'boolean' if you prefer
-        'seeker_dgroup_leader' => 'string', // or 'boolean' if you prefer
+        'seeker_missionary' => 'string',
+        'seeker_dgroup_leader' => 'string',
     ];
+
+    public function missionary()
+    {
+        return $this->belongsTo(User::class, 'seeker_missionary', 'id');
+    }
 }

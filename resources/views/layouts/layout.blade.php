@@ -137,6 +137,7 @@
         <aside class="sidebar" id="sidebar">
             <ul>
                 <li><a href="/seekers">Seekers</a></li>
+                <li><a href="/users">Users/Missionaries</a></li>
                 <li>
                     <form action="{{ route('auth.logout') }}" method="POST" style="display: inline;">
                         @csrf

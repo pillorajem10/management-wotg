@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SeekerController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -23,6 +24,7 @@ Route::get('/seekers/signup', [SeekerController::class, 'showSignupForm'])->name
 Route::post('/seekers/signup', [SeekerController::class, 'signup'])->name('seekers.signup.submit');
 Route::get('seekers/{id}', [SeekerController::class, 'show'])->name('seekers.view');
 Route::post('/seekers/send-email', [SeekerController::class, 'sendSeekerEmail'])->name('seekers.sendEmail');
+Route::post('/seekers/{id}/update-missionary', [SeekerController::class, 'updateMissionary'])->name('seekers.updateMissionary');
 
 
 // AUTH CONTOLLER 
@@ -31,3 +33,6 @@ Route::post('/signup', [AuthController::class, 'signup'])->name('register');
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('auth.login');
 Route::post('/login', [AuthController::class, 'login'])->name('auth.login.submit');
 Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
+
+// USER CONTROLLERS
+Route::get('/users', [UserController::class, 'index'])->name('users.index');

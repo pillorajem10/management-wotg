@@ -5,10 +5,16 @@ namespace App\Http\Controllers;
 use App\Models\Seeker;
 use App\Mail\SeekerEmail;
 use Illuminate\Http\Request;
+use App\Models\User;
 use Illuminate\Support\Facades\Mail;
 
 class SeekerController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth'); // Ensure the user is authenticated
+    }
+
     public function index()
     {
         // Check if the user is not logged in
@@ -62,9 +68,31 @@ class SeekerController extends Controller
         // Retrieve the seeker by ID
         $seeker = Seeker::findOrFail($id);
 
-        // Return the seeker detail view and pass the seeker data
-        return view('pages.seekerDetail', compact('seeker'));
+        // Retrieve users with the role 'missionary'
+        $missionaries = User::where('user_role', 'missionary')->get();
+
+        // Return the seeker detail view and pass the seeker and missionaries data
+        return view('pages.seekerDetail', compact('seeker', 'missionaries'));
     }
+
+    public function updateMissionary(Request $request, $id)
+    {
+        // Validate the incoming request
+        $request->validate([
+            'missionary_id' => 'required|exists:users,id',
+        ]);
+
+        // Retrieve the seeker by ID
+        $seeker = Seeker::findOrFail($id);
+        
+        // Update the seeker's assigned missionary
+        $seeker->seeker_missionary = $request->missionary_id;
+        $seeker->save();
+
+        // Redirect back with a success message
+        return redirect()->route('seekers.view', $id)->with('success', 'Missionary updated successfully!');
+    }
+
 
     // Send email to selected seekers
     public function sendSeekerEmail(Request $request)

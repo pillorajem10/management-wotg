@@ -3,12 +3,12 @@
 @section('title', 'Seeker Details')
 
 @section('styles')
-    <link rel="stylesheet" href="{{ asset('css/seekerDetails.css?v=1.2') }}">
+    <link rel="stylesheet" href="{{ asset('css/seekerDetails.css?v=1.0') }}">
 @endsection
 
 @section('content')
     <div class="back-link">
-        <a href="{{ url()->previous() }}" class="back-button">
+        <a href="/seekers" class="back-button">
             <span class="arrow">&larr;</span> Go Back
         </a>
     </div>
@@ -22,5 +22,18 @@
         <p><strong>City:</strong> {{ $seeker->seeker_city }}</p>
         <p><strong>Catch From:</strong> {{ $seeker->seeker_catch_from }}</p>
         <p><strong>Status:</strong> {{ $seeker->seeker_status }}</p>
+
+        <h3>Assign Missionary:</h3>
+        <form action="{{ route('seekers.updateMissionary', $seeker->id) }}" method="POST">
+            @csrf
+            <select name="missionary_id" class="missionary-dropdown" onchange="this.form.submit()">
+                <option value="">Select a Missionary</option>
+                @foreach ($missionaries as $missionary)
+                    <option value="{{ $missionary->id }}" {{ $missionary->id == $seeker->seeker_missionary ? 'selected' : '' }}>
+                        {{ $missionary->user_fname }} {{ $missionary->user_lname }}
+                    </option>
+                @endforeach
+            </select>
+        </form>
     </div>
 @endsection
