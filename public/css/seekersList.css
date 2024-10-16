@@ -1,0 +1,151 @@
+.seeker-body {
+    background-color: #f4f4f4;
+    font-family: Arial, sans-serif;
+    color: #333;
+    padding: 20px;
+}
+
+.seeker-title {
+    color: #000000;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.table-responsive {
+    overflow-x: auto; /* Allows horizontal scrolling */
+    margin-top: 20px;
+}
+
+.seeker-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.seeker-table th, .seeker-table td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+.seeker-table th {
+    background-color: #c0392b;
+    color: white;
+}
+
+.seeker-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+
+/*
+.seeker-table tr:hover {
+    background-color: #e74c3c;
+    color: white;
+}
+*/
+
+.view-button {
+    display: inline-block; /* Make it behave like a button */
+    padding: 10px 15px; /* Add some padding */
+    background-color: #c0392b; /* Button color */
+    color: white; /* Text color */
+    border-radius: 5px; /* Rounded corners */
+    text-decoration: none; /* Remove underline */
+    transition: background-color 0.3s; /* Smooth transition */
+}
+
+.view-button:hover {
+    background-color: darkred; /* Darker shade on hover */
+}
+
+
+.seeker-table td {
+    transition: background-color 0.3s ease;
+}
+
+.modal {
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+.close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+.close-button:hover,
+.close-button:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.btn-custom {
+    border: 2px solid #c0392b;      /* Red border */
+    color: #c0392b;                 /* Red text color */
+    background-color: white;    /* White background */
+    padding: 10px 15px;         /* Padding for the button */
+    text-align: center;         /* Center text */
+    text-decoration: none;       /* Remove underline */
+    display: inline-block;      /* Allow margin/padding */
+    cursor: pointer;            /* Pointer cursor on hover */
+    margin-top: 1rem;
+    border-radius: 1rem;
+    transition: background-color 0.3s, color 0.3s; /* Transition for hover effect */
+}
+
+.modal-content form {
+    display: flex;
+    flex-direction: column;
+}
+.modal-content input, 
+.modal-content textarea {
+    width: 100%;  /* Full width */
+    margin-bottom: 10px;  /* Space between fields */
+    padding: 8px; /* Padding for input fields */
+    border: 1px solid #ccc; /* Border style */
+    border-radius: 4px; /* Rounded corners */
+}
+.modal-content textarea {
+    resize: vertical; /* Allow vertical resizing only */
+    height: 100px; /* Default height */
+}
+
+.btn-custom:hover {
+    background-color: darkred;  /* Dark red background on hover */
+    color: white;               /* White text color on hover */
+}
+
+
+/* Responsive Styles */
+@media (max-width: 700px) {
+    .seeker-body {
+        padding: 10px;
+    }
+
+    .seeker-title {
+        font-size: 14px;
+    }
+
+    .seeker-table th, .seeker-table td {
+        padding: 5px;
+        font-size: 10px;
+    }
+
+    .seeker-table {
+        margin-top: 10px;
+    }
+}

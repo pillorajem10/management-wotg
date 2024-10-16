@@ -1,0 +1,64 @@
+body {
+    background-image: url('../images/wotg-background.jpg'); /* Adjust the path if necessary */
+    background-size: cover; /* Cover the entire viewport */
+    background-position: center; /* Center the background image */
+    height: 100vh; /* Ensure the body takes the full height of the viewport */
+    margin: 0; /* Remove default margin */
+    display: flex; /* Enable flexbox to center the auth container */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    font-family: Arial, sans-serif;
+}
+
+.auth-container {
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 30px;
+    display: flex;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    margin: 20px
+}
+
+.auth-title {
+    margin-bottom: 20px;
+    text-align: center;
+    color: #c0392b;
+}
+
+.form-group {
+    margin-bottom: 10px;
+}
+
+.signup-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two equal columns */
+    gap: 20px; /* Space between columns */
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.auth-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #c0392b;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.auth-button:hover {
+    background-color: #e74c3c;
+}
+
