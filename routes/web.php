@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SeekerController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\BlogController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -36,3 +37,9 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 
 // USER CONTROLLERS
 Route::get('/users', [UserController::class, 'index'])->name('users.index');
+
+// BLOG CONTROLLER
+Route::get('/blogs', [BlogController::class, 'index'])->name('blogs.index');
+Route::get('/blogs/create', [BlogController::class, 'create'])->name('blogs.create'); // Route for creating a new blog
+Route::post('/blogs', [BlogController::class, 'store'])->name('blogs.store'); // Route for storing the new blog
+Route::get('/blogs/{id}', [BlogController::class, 'show'])->name('blogs.show'); // Route for showing a specific blog

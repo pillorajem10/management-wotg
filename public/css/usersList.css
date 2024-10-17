@@ -10,13 +10,16 @@
     color: #333;
 }
 
+.table-container {
+    overflow-x: auto; /* Enable horizontal scrolling */
+}
+
 .user-table {
     width: 100%;
     border-collapse: collapse; /* Merge borders */
     margin: 20px 0;
     background-color: #fff;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
 }
 
 .user-table-header {
@@ -42,27 +45,13 @@
     text-align: center;
 }
 
-@media (max-width: 768px) {
-    .user-table {
-        display: block;
-        overflow-x: auto;
-        white-space: nowrap;
+@media (max-width: 800px) {
+    .user-table-header-cell, .user-table-cell {
+        font-size: 0.7rem; /* Lower font size */
+        padding: 8px 10px; /* Decrease padding */
     }
-
-    .user-table-header {
-        display: none; /* Hide header on small screens */
-    }
-
-    .user-table-row {
-        display: flex;
-        flex-direction: column;
-        border-bottom: 1px solid #ddd;
-    }
-
-    .user-table-cell {
-        display: flex;
-        justify-content: space-between;
-        padding: 10px;
-        border-bottom: 1px solid #ddd;
+    
+    .page-title {
+        font-size: 1rem; /* Optional: Adjust title font size as well */
     }
 }

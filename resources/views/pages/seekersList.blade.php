@@ -24,8 +24,7 @@
             <table class="seeker-table">
                 <thead>
                     <tr>
-                        <th>First Name</th>
-                        <th>Last Name</th>
+                        <th>Name</th>
                         <th>Assigned Missionary</th>
                         <th>Status</th>
                         <th>Actions</th>
@@ -34,8 +33,7 @@
                 <tbody>
                     @foreach($seekers as $seeker)
                     <tr>
-                        <td>{{ $seeker->seeker_fname }}</td>
-                        <td>{{ $seeker->seeker_lname }}</td>
+                        <td>{{ $seeker->seeker_fname }} {{ $seeker->seeker_lname }}</td>
                         <td>{{ $seeker->missionary ? $seeker->missionary->user_fname . ' ' . $seeker->missionary->user_lname : 'No Assigned Missionary' }}</td>
                         <td>{{ $seeker->seeker_status }}</td>
                         <td>

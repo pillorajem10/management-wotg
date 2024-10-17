@@ -7,7 +7,11 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    // Display a list of users
+    public function __construct()
+    {
+        $this->middleware('auth'); // Ensure the user is authenticated
+    }
+    
     public function index()
     {
         $users = User::all();
