@@ -3,7 +3,7 @@
 @section('title', 'Add Blog')
 
 @section('styles')
-    <link rel="stylesheet" href="{{ asset('css/addBlog.css?v=1.0') }}">
+    <link rel="stylesheet" href="{{ asset('css/addBlog.css?v=1.1') }}">
     <script src="https://cdn.ckeditor.com/4.16.1/standard/ckeditor.js"></script> <!-- CKEditor script -->
 @endsection
 
