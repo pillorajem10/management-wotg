@@ -3,19 +3,31 @@
 @section('title', $blog->blog_title)
 
 @section('styles')
-    <link rel="stylesheet" href="{{ asset('css/blogDetails.css?v=1.4') }}">
+    <link rel="stylesheet" href="{{ asset('css/blogDetails.css?v=1.3') }}">
 @endsection
 
 @section('content')
     <div class="blog-details-container">
-        <div class="blog-meta">
-            <span class="blog-creator">
-                Created by: {{ $blog->creator ? $blog->creator->user_fname . ' ' . $blog->creator->user_lname : 'Unknown' }}
-            </span>,
-            <span class="blog-date">
-                Date Added: {{ \Carbon\Carbon::parse($blog->created_at)->format('F j, Y') }}
-            </span>
-        </div>
+        <div class="blog-meta d-flex justify-content-between align-items-center flex-wrap">
+            <div>
+                <span class="blog-creator">
+                    Created by: {{ $blog->creator ? $blog->creator->user_fname . ' ' . $blog->creator->user_lname : 'Unknown' }}
+                </span>,
+                <span class="blog-date">
+                    Date Added: {{ \Carbon\Carbon::parse($blog->created_at)->format('F j, Y') }}
+                </span>
+            </div>
+        
+            @if(auth()->user()->user_role === 'owner')
+                <form action="{{ route('blogs.approve', $blog->id) }}" method="POST" style="display:inline;">
+                    @csrf
+                    @method('PATCH')
+                    <button type="submit" class="btn btn-{{ $blog->blog_approved ? 'warning' : 'success' }}" onclick="return confirm('Are you sure you want to {{ $blog->blog_approved ? 'disapprove' : 'approve' }} this blog?')">
+                        {{ $blog->blog_approved ? 'Disapprove' : 'Approve' }}
+                    </button>
+                </form>
+            @endif
+        </div>     
 
         <div class="blog-content">
             <div class="blog-thumbnail">

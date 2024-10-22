@@ -128,6 +128,10 @@
             text-decoration: none; /* Optional hover effect */
         }
 
+        .header-title {
+            font-size: 1.5rem;
+        }
+
         @media (max-width: 600px) {
             .sidebar {
                 width: 200px; /* Adjust width for smaller screens */
@@ -181,7 +185,7 @@
 
         <div class="main-content">
             <header>
-                <h1>@yield('title', 'Dashboard')</h1>
+                <h1 class="header-title">@yield('title', 'Dashboard')</h1>
             </header>
             <div class="cards">
                 @yield('content')
