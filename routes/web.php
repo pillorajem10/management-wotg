@@ -43,3 +43,7 @@ Route::get('/blogs', [BlogController::class, 'index'])->name('blogs.index');
 Route::get('/blogs/create', [BlogController::class, 'create'])->name('blogs.create'); // Route for creating a new blog
 Route::post('/blogs', [BlogController::class, 'store'])->name('blogs.store'); // Route for storing the new blog
 Route::get('/blogs/{id}', [BlogController::class, 'show'])->name('blogs.show'); // Route for showing a specific blog
+Route::get('/blogs/{id}/edit', [BlogController::class, 'edit'])->name('blogs.edit');
+Route::post('/blogs/{id}', [BlogController::class, 'update'])->name('blogs.update');
+Route::delete('/blogs/{id}', [BlogController::class, 'destroy'])->name('blogs.destroy'); // Route for deleting a blog
+

@@ -33,6 +33,10 @@
     border: 1px solid #ddd; /* Add border to cells */
 }
 
+.action-container {
+    display: flex;
+}
+
 .blog-table-row:nth-child(even) {
     background-color: #f2f2f2;
 }

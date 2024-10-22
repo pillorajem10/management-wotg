@@ -18,10 +18,16 @@ class Blog extends Model
         'blog_body',
         'blog_thumbnail',
         'blog_creator',
-    ];
+        'blog_approved',
+        'blog_is_hidden',            // Added is_hidden
+        'blog_release_date_and_time' // Added release date and time
+    ];    
 
     protected $casts = [
         'blog_creator' => 'integer',
+        'blog_is_hidden' => 'boolean',  
+        'blog_approved' => 'boolean',          // Cast to boolean
+        'blog_release_date_and_time' => 'datetime', // Cast to datetime
     ];
 
     // Define the relationship to User
@@ -30,4 +36,3 @@ class Blog extends Model
         return $this->belongsTo(User::class, 'blog_creator', 'id');
     }
 }
-

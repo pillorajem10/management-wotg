@@ -3,37 +3,38 @@
 @section('title', 'Add Blog')
 
 @section('styles')
-    <link rel="stylesheet" href="{{ asset('css/addBlog.css?v=1.3') }}">
+    <link rel="stylesheet" href="{{ asset('css/editBlog.css?v=1.3') }}">
     <script src="https://cdn.ckeditor.com/4.16.1/standard/ckeditor.js"></script> <!-- CKEditor script -->
 @endsection
 
 @section('content')
     <div class="blog-container">
-        <h2 class="page-title">Add New Blog</h2>
+        <h2 class="page-title">Edit Blog</h2>
 
         @if (session('success'))
             <div class="alert alert-success">{{ session('success') }}</div>
         @endif
 
-        <form action="{{ route('blogs.store') }}" method="POST" enctype="multipart/form-data" class="blog-form">
+        <form action="{{ route('blogs.update', $blog->id) }}" method="POST" enctype="multipart/form-data" class="blog-form">
             @csrf
-            
+            @method('POST')
+        
             <div class="form-group">
                 <label for="blog_title" class="form-label">Blog Title</label>
-                <input type="text" name="blog_title" id="blog_title" class="form-input" required>
+                <input type="text" name="blog_title" id="blog_title" class="form-input" value="{{ old('blog_title', $blog->blog_title) }}" required>
                 @error('blog_title')
                     <div class="text-danger">{{ $message }}</div>
                 @enderror
             </div>
-
+        
             <div class="form-group">
                 <label for="blog_body" class="form-label">Blog Body</label>
-                <textarea name="blog_body" id="blog_body" class="form-textarea" required></textarea>
+                <textarea name="blog_body" id="blog_body" class="form-textarea" required>{{ old('blog_body', $blog->blog_body) }}</textarea>
                 @error('blog_body')
                     <div class="text-danger">{{ $message }}</div>
                 @enderror
             </div>
-
+        
             <div class="form-group">
                 <label for="blog_thumbnail" class="form-label">Thumbnail (optional)</label>
                 <input type="file" name="blog_thumbnail" id="blog_thumbnail" class="form-file" accept="image/*">
@@ -41,17 +42,9 @@
                     <div class="text-danger">{{ $message }}</div>
                 @enderror
             </div>
-
-            <div class="form-group">
-                <label for="blog_release_date_and_time" class="form-label">Release Date and Time</label>
-                <input type="datetime-local" name="blog_release_date_and_time" id="blog_release_date_and_time" class="form-input">
-                @error('blog_release_date_and_time')
-                    <div class="text-danger">{{ $message }}</div>
-                @enderror
-            </div>
-
+        
             <button type="submit" class="btn-submit">Submit</button>
-        </form>
+        </form>        
     </div>
 
     <script>

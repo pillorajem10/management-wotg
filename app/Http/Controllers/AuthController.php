@@ -83,7 +83,7 @@ class AuthController extends Controller
         }
     
         // If login fails
-        return redirect()->route('login')->with('error', 'The credentials you provided do not match our records.');
+        return redirect()->route('auth.login')->with('error', 'The credentials you provided do not match our records.');
     }            
 
     // Handle logout

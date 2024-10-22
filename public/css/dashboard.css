@@ -1,0 +1,53 @@
+.dashboard-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    flex-wrap: wrap; /* Allow wrapping */
+    align-items: stretch;
+}
+
+.dashboard-card {
+    background-color: #f1f1f1;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    width: 30rem; /* Adjust width as necessary */
+    text-align: center; /* Center text */
+    margin: 10px; /* Add margin around cards */
+    transition: transform 0.3s, box-shadow 0.3s; /* Smooth hover effect */
+}
+
+.dashboard-card:hover {
+    transform: translateY(-5px); /* Lift effect on hover */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Deeper shadow on hover */
+}
+
+.dashboard-card h3 {
+    margin: 0 0 10px;
+}
+
+.dashboard-card p {
+    font-size: 24px; /* Increase font size for counts */
+    font-weight: bold;
+}
+
+/* Link Styles */
+.dashboard-card a {
+    text-decoration: none; /* Remove underline */
+    color: #c0392b; /* Default link color */
+}
+
+.dashboard-card a:hover {
+    color: darkred; /* Darker color on hover */
+}
+
+.dashboard-card a:visited {
+    color: #6c757d; /* Color for visited links */
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+    .dashboard-card {
+        width: 100%; /* Full width on small screens */
+    }
+}

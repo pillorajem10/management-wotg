@@ -29,8 +29,11 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            position: relative;
-            width: 100%;
+            position: fixed; /* Change to fixed */
+            top: 0; /* Stick to the top */
+            left: 0; /* Align to the left */
+            width: 100%; /* Full width */
+            z-index: 1000; /* Ensure it stays above other content */
         }
 
         .navbar-brand {
@@ -74,7 +77,12 @@
         .main-content {
             padding: 20px;
             margin-left: 0; /* Adjust for sidebar */
+            margin-top: 6.3rem;
             transition: margin-left 0.3s ease;
+        }
+
+        .sidebar.active + .main-content {
+            margin-left: 250px; /* Shift right when sidebar is active */
         }
 
         header {
@@ -82,6 +90,7 @@
             color: white;
             padding: 10px;
             border-radius: 5px;
+            font-size: 1rem;
         }
 
         .cards {
@@ -118,6 +127,26 @@
         .logout-button:hover {
             text-decoration: none; /* Optional hover effect */
         }
+
+        @media (max-width: 600px) {
+            .sidebar {
+                width: 200px; /* Adjust width for smaller screens */
+            }
+
+            .sidebar.active {
+                left: 0; /* Keep it at 0 when active */
+                width: 100%; /* Full width on mobile */
+            }
+
+            .main-content {
+                margin-left: 0; /* Reset margin for mobile */
+            }
+
+            .sidebar.active + .main-content {
+                margin-left: 0; /* No shift when sidebar is active on mobile */
+            }
+        }
+
     </style>
     @yield('styles')
 </head>
