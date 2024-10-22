@@ -17,11 +17,21 @@ class HomeController extends Controller
 
     public function index()
     {
-        $user = Auth::user(); // Get the authenticated user
-        $blogCount = Blog::count(); // Count of blogs
-        $seekerCount = Seeker::count(); // Count of seekers
-        $userCount = User::where('user_role', 'missionary')->count(); // Count of users with role "missionary"
+        $user = Auth::user();
+        $blogCount = Blog::count();
+        $seekerCount = Seeker::count();
+        $userCount = User::where('user_role', 'missionary')->count();
     
-        return view('pages.home', compact('user', 'blogCount', 'seekerCount', 'userCount')); // Pass the counts to the view
-    }    
+        // Fetch verse of the day
+        $verseOfTheDay = $this->getVerseOfTheDay();
+    
+        return view('pages.home', compact('user', 'blogCount', 'seekerCount', 'userCount', 'verseOfTheDay'));
+    }
+    
+    private function getVerseOfTheDay()
+    {
+        $response = file_get_contents('https://bible-api.com/?random=verse'); // Replace with the correct endpoint
+        return json_decode($response);
+    }
+       
 }

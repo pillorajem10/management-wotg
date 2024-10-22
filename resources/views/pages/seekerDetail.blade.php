@@ -3,7 +3,7 @@
 @section('title', 'Seeker Details')
 
 @section('styles')
-    <link rel="stylesheet" href="{{ asset('css/seekerDetails.css?v=1.5') }}">
+    <link rel="stylesheet" href="{{ asset('css/seekerDetails.css?v=1.0') }}">
 @endsection
 
 @section('content')
@@ -30,7 +30,7 @@
                 <option value="">Select a Missionary</option>
                 @foreach ($missionaries as $missionary)
                     <option value="{{ $missionary->id }}" {{ $missionary->id == $seeker->seeker_missionary ? 'selected' : '' }}>
-                        {{ $missionary->user_fname }} {{ $missionary->user_lname }}
+                        {{ $missionary->user_fname }} {{ $missionary->user_lname }} - {{ $missionary->seekers_count }}
                     </option>
                 @endforeach
             </select>

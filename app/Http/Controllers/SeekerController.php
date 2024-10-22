@@ -67,13 +67,19 @@ class SeekerController extends Controller
     {
         // Retrieve the seeker by ID
         $seeker = Seeker::findOrFail($id);
-
-        // Retrieve users with the role 'missionary'
-        $missionaries = User::where('user_role', 'missionary')->get();
-
+    
+        // Retrieve users with the role 'missionary' and count seekers under each,
+        // filtered by gender
+        $missionaries = User::where('user_role', 'missionary')
+            ->when($seeker->seeker_gender, function($query) use ($seeker) {
+                return $query->where('user_gender', $seeker->seeker_gender);
+            })
+            ->withCount('seekers') // This counts the related seekers
+            ->get();
+    
         // Return the seeker detail view and pass the seeker and missionaries data
         return view('pages.seekerDetail', compact('seeker', 'missionaries'));
-    }
+    }        
 
     public function updateMissionary(Request $request, $id)
     {

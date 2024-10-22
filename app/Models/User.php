@@ -26,5 +26,10 @@ class User extends Authenticatable
         'password',
     ];
 
-    // You can define other methods or relationships here
+    // Define the relationship to Seekers
+    public function seekers()
+    {
+        return $this->hasMany(Seeker::class, 'seeker_missionary', 'id'); // Adjust the foreign key if necessary
+    }
 }
+
