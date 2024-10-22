@@ -1,60 +1,38 @@
 .blog-details-container {
-    margin: 20px auto;
     padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-.blog-title {
-    font-size: 2rem;
-    color: #c0392b;
-    margin-bottom: 10px;
+    background-color: #f9f9f9; /* Light background */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
 }
 
 .blog-meta {
-    font-size: 0.9rem;
-    color: #555;
+    font-size: 14px;
     margin-bottom: 20px;
+    color: #666; /* Soft text color */
 }
 
-.blog-content {
-    display: flex; /* Flexbox layout */
-    align-items: flex-start; /* Align items at the top */
+.blog-flex {
+    display: flex;
+    align-items: flex-start;
 }
 
 .blog-thumbnail {
-    flex: 1; /* Take up one part of the flex container */
-    max-width: 200px; /* Set a max width for the thumbnail */
-    margin-right: 20px; /* Space between thumbnail and body */
-    text-align: center;
+    flex: 0 0 30%; /* Thumbnail takes up 30% width */
+    margin-right: 20px; /* Space between image and text */
 }
 
 .thumbnail-image {
-    max-width: 200rem;
+    max-width: 100%;
     height: auto;
-    border-radius: 8px;
-}
-
-.no-thumbnail {
-    color: #888;
-}
-
-.blog-body {
-    flex: 3; /* Take up three parts of the flex container */
-    margin-bottom: 20px;
-}
-
-.body-title {
-    font-size: 1.5rem;
-    color: #333;
-    margin-bottom: 10px;
+    border-radius: 8px; /* Optional: rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional: shadow for depth */
 }
 
 .body-text {
-    font-size: 1rem;
-    line-height: 1.5;
-    color: #444;
+    flex: 1; /* Take up remaining space */
+    font-size: 16px; /* Text size */
+    line-height: 1.6; /* Line height for readability */
+    color: #333; /* Darker text color */
 }
 
 .btn-back {
@@ -71,4 +49,5 @@
 .btn-back:hover {
     background-color: #c0392b;
     color: white;
+    text-decoration: none;
 }

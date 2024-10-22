@@ -1,36 +1,36 @@
 @extends('layouts.layout')
 
-@section('title', 'Blogs')
+@section('title', 'Users')
 
 @section('styles')
-    <link rel="stylesheet" href="{{ asset('css/blogs.css?v=1.0') }}">
+    <link rel="stylesheet" href="{{ asset('css/usersList.css?v=1.0') }}">
 @endsection
 
 @section('content')
-    <div class="blog-container">
-        <div class="table-container">
-            <table class="blog-table">
-                <thead>
-                    <tr class="blog-table-header">
-                        <th class="blog-table-header-cell">Blog Title</th>
-                        <th class="blog-table-header-cell">Creator ID</th>
-                        <th class="blog-table-header-cell">Created At</th>
+    <div>
+        <table class="user-table">
+            <thead>
+                <tr class="user-table-header">
+                    <th class="user-table-header-cell">First Name</th>
+                    <th class="user-table-header-cell">Last Name</th>
+                    <th class="user-table-header-cell">Role</th>
+                    <th class="user-table-header-cell">Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse ($users as $user)
+                    <tr class="user-table-row">
+                        <td class="user-table-cell">{{ $user->user_fname }}</td>
+                        <td class="user-table-cell">{{ $user->user_lname }}</td>
+                        <td class="user-table-cell">{{ $user->user_role }}</td>
+                        <td class="user-table-cell">{{ $user->email }}</td>
                     </tr>
-                </thead>
-                <tbody>
-                    @forelse ($blogs as $blog)
-                        <tr class="blog-table-row">
-                            <td class="blog-table-cell">{{ $blog->blog_title }}</td>
-                            <td class="blog-table-cell">{{ $blog->blog_creator }}</td>
-                            <td class="blog-table-cell">{{ $blog->created_at }}</td>
-                        </tr>
-                    @empty
-                        <tr class="blog-table-row">
-                            <td colspan="3" class="blog-table-empty text-center">No blogs found.</td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
+                @empty
+                    <tr class="user-table-row">
+                        <td colspan="4" class="user-table-empty text-center">No users found.</td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
     </div>
 @endsection
