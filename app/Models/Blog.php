@@ -11,7 +11,7 @@ class Blog extends Model
 
     protected $table = 'blogs';
     protected $primaryKey = 'id';
-    public $timestamps = true; // Enable timestamps
+    public $timestamps = true; 
 
     protected $fillable = [
         'blog_title',
@@ -19,15 +19,13 @@ class Blog extends Model
         'blog_thumbnail',
         'blog_creator',
         'blog_approved',
-        'blog_is_hidden',            // Added is_hidden
-        'blog_release_date_and_time' // Added release date and time
+        'blog_release_date_and_time'
     ];    
 
     protected $casts = [
         'blog_creator' => 'integer',
-        'blog_is_hidden' => 'boolean',  
-        'blog_approved' => 'boolean',          // Cast to boolean
-        'blog_release_date_and_time' => 'datetime', // Cast to datetime
+        'blog_approved' => 'boolean',          
+        'blog_release_date_and_time' => 'datetime', 
     ];
 
     // Define the relationship to User

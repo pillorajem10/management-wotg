@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Blog;
 use Illuminate\Http\Request;
+// use Carbon\Carbon; 
+// use Illuminate\Support\Facades\Log; 
 
 class BlogController extends Controller
 {
@@ -12,6 +14,23 @@ class BlogController extends Controller
         $this->middleware('auth'); // Ensure the user is authenticated
     }
     
+    /*
+    public function index()
+    {
+        // Set the timezone to Manila
+        $today = Carbon::now('Asia/Manila');
+    
+        // Log the current date
+        Log::info('Fetching blogs on date: ' . $today->toDateTimeString());
+    
+        // Fetch all blogs with a release date less than or equal to today
+        $blogs = Blog::where('blog_release_date_and_time', '<=', $today)->get();
+    
+        return view('pages.blogs', compact('blogs'));
+    }
+    */
+
+
     public function index()
     {
         $blogs = Blog::all(); // Fetch all blogs
@@ -98,4 +117,14 @@ class BlogController extends Controller
 
         return redirect()->route('blogs.index')->with('success', 'Blog deleted successfully!');
     }
+
+    public function approve($id)
+    {
+        $blog = Blog::findOrFail($id); // Fetch the specific blog or fail if not found
+        $blog->blog_approved = !$blog->blog_approved; // Toggle approval status
+        $blog->save(); // Save the changes
+
+        return redirect()->route('blogs.index')->with('success', 'Blog approval status updated successfully!');
+    }
+
 }

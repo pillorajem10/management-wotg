@@ -3,7 +3,7 @@
 @section('title', 'Seekers List')
 
 @section('styles')
-    <link rel="stylesheet" href="{{ asset('css/seekersList.css?v=1.3') }}">
+    <link rel="stylesheet" href="{{ asset('css/seekersList.css?v=1.4') }}">
 @endsection
 
 @section('content')

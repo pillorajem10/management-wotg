@@ -3,7 +3,7 @@
 @section('title', 'Blogs')
 
 @section('styles')
-    <link rel="stylesheet" href="{{ asset('css/blogs.css?v=1.3') }}">
+    <link rel="stylesheet" href="{{ asset('css/blogs.css?v=1.4') }}">
 @endsection
 
 @section('content')
@@ -47,24 +47,33 @@
                             </td>
                             <td class="blog-table-cell">
                                 @if($blog->blog_approved)
-                                    <span class="text-success">&#10004;</span> <!-- Checkmark -->
+                                    <span class="text-success">&#10004;</span>
                                 @else
-                                    <span class="text-danger">&#10008;</span> <!-- X icon -->
+                                    <span class="text-danger">&#10008;</span>
                                 @endif
                             </td>
                             <td class="blog-table-cell">
                                 <div class="action-container">
                                     <a href="{{ route('blogs.show', $blog->id) }}" class="btn-view">View</a>
                                     <a href="{{ route('blogs.edit', $blog->id) }}" class="btn-view">Edit</a>
-
-                                    <!-- Delete Form -->
+                            
+                                    @if(auth()->user()->user_role === 'owner')
+                                        <form action="{{ route('blogs.approve', $blog->id) }}" method="POST" style="display:inline;">
+                                            @csrf
+                                            @method('PATCH') <!-- Use PATCH for updating -->
+                                            <button type="submit" class="btn btn-{{ $blog->blog_approved ? 'warning' : 'success' }} ml-2" onclick="return confirm('Are you sure you want to {{ $blog->blog_approved ? 'disapprove' : 'approve' }} this blog?')">
+                                                {{ $blog->blog_approved ? 'Disapprove' : 'Approve' }}
+                                            </button>
+                                        </form>
+                                    @endif
+                            
                                     <form action="{{ route('blogs.destroy', $blog->id) }}" method="POST" style="display:inline;">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this blog?')">Delete</button>
+                                        <button type="submit" class="btn btn-danger ml-2" onclick="return confirm('Are you sure you want to delete this blog?')">Delete</button>
                                     </form>
                                 </div>
-                            </td>
+                            </td>                            
                         </tr>
                     @empty
                         <tr class="blog-table-row">

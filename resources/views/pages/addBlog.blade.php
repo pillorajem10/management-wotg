@@ -3,14 +3,12 @@
 @section('title', 'Add Blog')
 
 @section('styles')
-    <link rel="stylesheet" href="{{ asset('css/addBlog.css?v=1.3') }}">
-    <script src="https://cdn.ckeditor.com/4.16.1/standard/ckeditor.js"></script> <!-- CKEditor script -->
+    <link rel="stylesheet" href="{{ asset('css/addBlog.css?v=1.4') }}">
+    <script src="https://cdn.ckeditor.com/4.16.1/standard/ckeditor.js"></script>
 @endsection
 
 @section('content')
     <div class="blog-container">
-        <h2 class="page-title">Add New Blog</h2>
-
         @if (session('success'))
             <div class="alert alert-success">{{ session('success') }}</div>
         @endif
@@ -50,7 +48,7 @@
                 @enderror
             </div>
 
-            <button type="submit" class="btn-submit">Submit</button>
+            <button type="submit" class="btn-submit">Save</button>
         </form>
     </div>
 
