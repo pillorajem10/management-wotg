@@ -49,7 +49,10 @@
                 @enderror
             </div>
         
-            <button type="submit" class="btn-submit">Save And Approve</button>
+            <button type="submit" class="btn-submit">
+                {{ auth()->user()->user_role === 'owner' ? 'Save And Approve' : 'Save' }}
+            </button>
+            
         </form>        
     </div>
 

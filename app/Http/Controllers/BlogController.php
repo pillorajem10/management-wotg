@@ -108,10 +108,15 @@ class BlogController extends Controller
             $blog->blog_thumbnail = file_get_contents($request->file('blog_thumbnail')->getRealPath()); // Update with new thumbnail
         }
     
+        // Set blog_approved to true if the auth user is owner
+        if (auth()->user()->user_role === 'owner') {
+            $blog->blog_approved = true;
+        }
+    
         $blog->save(); // Save the changes
     
         return redirect()->route('blogs.index')->with('success', 'Blog updated successfully!');
-    }    
+    }      
 
     // Delete the specified blog
     public function destroy($id)
