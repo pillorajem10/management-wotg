@@ -56,6 +56,7 @@ class BlogController extends Controller
         $request->validate([
             'blog_title' => 'required|string|max:255',
             'blog_body' => 'required|string',
+            'blog_intro' => 'required|string|max:255', // Validate blog_intro
             'blog_thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate image
             'blog_release_date_and_time' => 'nullable|date', // Validate the release date and time
         ]);
@@ -69,6 +70,7 @@ class BlogController extends Controller
         Blog::create([
             'blog_title' => $request->blog_title,
             'blog_body' => $request->blog_body,
+            'blog_intro' => $request->blog_intro, // Include blog_intro
             'blog_thumbnail' => $thumbnail, // Store binary in longblob
             'blog_creator' => auth()->id(), // Assuming user is logged in
             'blog_is_hidden' => true, // Set default to true
@@ -76,7 +78,7 @@ class BlogController extends Controller
         ]);
     
         return redirect()->route('blogs.index')->with('success', 'Blog created successfully!');
-    }    
+    }       
     
     // Show the form for editing a specific blog
     public function edit($id)
@@ -91,23 +93,25 @@ class BlogController extends Controller
         $request->validate([
             'blog_title' => 'required|string|max:255',
             'blog_body' => 'required|string',
+            'blog_intro' => 'required|string|max:255', // Validate blog_intro
             'blog_thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate image
         ]);
-
+    
         // Find the blog and update its details
         $blog = Blog::findOrFail($id);
         $blog->blog_title = $request->blog_title;
         $blog->blog_body = $request->blog_body;
-
+        $blog->blog_intro = $request->blog_intro; // Update blog_intro
+    
         // Handle the image upload if there's a new thumbnail
         if ($request->hasFile('blog_thumbnail')) {
             $blog->blog_thumbnail = file_get_contents($request->file('blog_thumbnail')->getRealPath()); // Update with new thumbnail
         }
-
+    
         $blog->save(); // Save the changes
-
+    
         return redirect()->route('blogs.index')->with('success', 'Blog updated successfully!');
-    }
+    }    
 
     // Delete the specified blog
     public function destroy($id)

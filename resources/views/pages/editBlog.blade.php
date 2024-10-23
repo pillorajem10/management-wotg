@@ -24,6 +24,14 @@
                     <div class="text-danger">{{ $message }}</div>
                 @enderror
             </div>
+
+            <div class="form-group">
+                <label for="blog_intro" class="form-label">Blog Intro</label>
+                <input type="text" name="blog_intro" id="blog_intro" class="form-input" value="{{ old('blog_intro', $blog->blog_intro) }}" required>
+                @error('blog_intro')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
         
             <div class="form-group">
                 <label for="blog_body" class="form-label">Blog Body</label>
@@ -41,7 +49,7 @@
                 @enderror
             </div>
         
-            <button type="submit" class="btn-submit">Save</button>
+            <button type="submit" class="btn-submit">Save And Approve</button>
         </form>        
     </div>
 

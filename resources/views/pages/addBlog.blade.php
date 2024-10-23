@@ -25,31 +25,39 @@
             </div>
 
             <div class="form-group">
+                <label for="blog_intro" class="form-label">Blog Intro</label>
+                <input type="text" name="blog_intro" id="blog_intro" class="form-input" required>
+                @error('blog_intro')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
+        
+            <div class="form-group">
                 <label for="blog_body" class="form-label">Blog Body</label>
-                <textarea name="blog_body" id="blog_body" class="form-textarea" required></textarea>
+                <textarea name="blog_body" id="blog_body" class="form-textarea" required>{{ old('blog_body') }}</textarea>
                 @error('blog_body')
                     <div class="text-danger">{{ $message }}</div>
                 @enderror
             </div>
-
+        
             <div class="form-group">
-                <label for="blog_thumbnail" class="form-label">Thumbnail (optional)</label>
-                <input type="file" name="blog_thumbnail" id="blog_thumbnail" class="form-file" accept="image/*">
+                <label for="blog_thumbnail" class="form-label">Thumbnail</label>
+                <input type="file" name="blog_thumbnail" id="blog_thumbnail" class="form-file" accept="image/*" required>
                 @error('blog_thumbnail')
                     <div class="text-danger">{{ $message }}</div>
                 @enderror
-            </div>
-
+            </div>            
+        
             <div class="form-group">
                 <label for="blog_release_date_and_time" class="form-label">Release Date and Time</label>
-                <input type="datetime-local" name="blog_release_date_and_time" id="blog_release_date_and_time" class="form-input">
+                <input type="datetime-local" name="blog_release_date_and_time" id="blog_release_date_and_time" class="form-input" required>
                 @error('blog_release_date_and_time')
                     <div class="text-danger">{{ $message }}</div>
                 @enderror
             </div>
-
+        
             <button type="submit" class="btn-submit">Save</button>
-        </form>
+        </form>        
     </div>
 
     <script>

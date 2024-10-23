@@ -19,8 +19,9 @@ class Blog extends Model
         'blog_thumbnail',
         'blog_creator',
         'blog_approved',
-        'blog_release_date_and_time'
-    ];    
+        'blog_release_date_and_time',
+        'blog_intro', 
+    ];      
 
     protected $casts = [
         'blog_creator' => 'integer',
