@@ -70,7 +70,7 @@
     <div class="container">
         <h1 class="blog-title">{{ $blog->blog_title }}</h1>
         <div class="blog-intro">{!! $blogIntro !!}</div> <!-- Render blog intro as HTML -->
-        <a href="https://blogs.wotgonline.com/blogs/{{ $blog->id }}" class="like-button">Read Full Article Here</a>
+        <a href="https://blogs.wotgonline.com/blogs/{{ $blog->id }}" class="like-button" style="color: #c0392b;">Read Full Article Here</a>
     </div>
     <footer class="footer">
         <p>&copy; {{ date('Y') }} WOTG. All rights reserved.</p>
