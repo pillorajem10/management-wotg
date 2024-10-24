@@ -132,14 +132,25 @@ class BlogController extends Controller
     
         if ($blogs->isNotEmpty()) {
             foreach ($blogs as $blog) {
-                $emails = User::pluck('email')->merge(Seeker::pluck('seeker_email'))->unique();
+                // Fetch users with their first names
+                $userEmails = User::select('email', 'user_fname')->get();
+                // Fetch seekers with their first names
+                $seekerEmails = Seeker::select('seeker_email', 'seeker_fname')->get();
     
-                foreach ($emails as $email) {
-                    Mail::to($email)->send(new DailyBlogReport($blog));
+                // Merge emails and names
+                $emails = $userEmails->merge($seekerEmails);
+    
+                foreach ($emails as $entry) {
+                    // Determine the correct email and first name
+                    $email = $entry->email ?? $entry->seeker_email;
+                    $firstName = $entry->user_fname ?? $entry->seeker_fname;
+    
+                    // Send the email with the first name included
+                    Mail::to($email)->send(new DailyBlogReport($blog, $firstName));
                 }
             }
         } else {
             \Log::info('No approved blogs found for today, no emails sent.');
         }
-    }              
+    }                
 }
