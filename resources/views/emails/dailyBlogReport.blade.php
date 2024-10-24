@@ -69,8 +69,9 @@
 <body>
     <div class="container">
         <h1 class="blog-title">{{ $blog->blog_title }}</h1>
-        <p class="blog-intro">{{ $blog->blog_intro }}</p>
+        <p class="blog-intro">{{ $blogIntro }}</p>
         <a href="https://blogs.wotgonline.com/blogs/{{ $blog->id }}" class="like-button" style="color: #c0392b;">Read Full Article</a>
+        <p class="blog-intro">Be blessed! <br>Mike Pineda</p>
     </div>
     <footer class="footer">
         <p>&copy; {{ date('Y') }} WOTG. All rights reserved.</p>

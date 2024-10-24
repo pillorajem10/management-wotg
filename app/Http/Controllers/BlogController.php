@@ -145,12 +145,15 @@ class BlogController extends Controller
                     $email = $entry->email ?? $entry->seeker_email;
                     $firstName = $entry->user_fname ?? $entry->seeker_fname;
     
-                    // Send the email with the first name included
-                    Mail::to($email)->send(new DailyBlogReport($blog, $firstName));
+                    // Replace [fname] in the blog intro with the actual first name
+                    $blogIntro = str_replace('[fname]', $firstName, $blog->blog_intro);
+    
+                    // Send the email with the modified blog intro
+                    Mail::to($email)->send(new DailyBlogReport($blog, $firstName, $blogIntro));
                 }
             }
         } else {
             \Log::info('No approved blogs found for today, no emails sent.');
         }
-    }                
+    }    
 }
