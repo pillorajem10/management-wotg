@@ -2,6 +2,8 @@
 
 @section('title', 'Sign Up Seeker')
 
+@include('components.loading')
+
 @section('content')
     <div>
         <h2 class="auth-title">Become part of our community.</h2>

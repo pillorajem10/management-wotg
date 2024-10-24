@@ -6,6 +6,8 @@
     <link rel="stylesheet" href="{{ asset('css/seekerDetails.css?v=1.0') }}">
 @endsection
 
+@include('components.loading')
+
 @section('content')
     <div class="back-link">
         <a href="/seekers" class="back-button">

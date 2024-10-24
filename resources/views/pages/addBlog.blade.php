@@ -7,6 +7,8 @@
     <script src="https://cdn.ckeditor.com/4.16.1/standard/ckeditor.js"></script>
 @endsection
 
+@include('components.loading')
+
 @section('content')
     <div class="blog-container">
         @if (session('success'))

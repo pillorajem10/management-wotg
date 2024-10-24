@@ -12,7 +12,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        // $schedule->command('inspire')->hourly();
+        // Schedule the sendDailyEmail method to run daily at 8:00 AM
+        $schedule->call(function () {
+            (new \App\Http\Controllers\BlogController())->sendDailyEmail();
+        })->dailyAt('08:00'); // Adjust the time as needed
     }
 
     /**

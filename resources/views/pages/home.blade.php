@@ -6,6 +6,8 @@
     <link rel="stylesheet" href="{{ asset('css/dashboard.css?v=1.6') }}">
 @endsection
 
+<title>@yield('title') || Word On The Go</title>
+
 @section('content')
     <h2>Welcome, {{ $user->user_fname }}!</h2>
     <div class="dashboard-container">

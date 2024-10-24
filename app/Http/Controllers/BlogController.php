@@ -3,9 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Blog;
+use App\Models\User;
+use App\Models\Seeker;
 use Illuminate\Http\Request;
-// use Carbon\Carbon; 
-// use Illuminate\Support\Facades\Log; 
+use App\Mail\DailyBlogReport; 
+use Carbon\Carbon; 
+use Illuminate\Support\Facades\Mail; 
+
 
 class BlogController extends Controller
 {
@@ -13,23 +17,6 @@ class BlogController extends Controller
     {
         $this->middleware('auth'); // Ensure the user is authenticated
     }
-    
-    /*
-    public function index()
-    {
-        // Set the timezone to Manila
-        $today = Carbon::now('Asia/Manila');
-    
-        // Log the current date
-        Log::info('Fetching blogs on date: ' . $today->toDateTimeString());
-    
-        // Fetch all blogs with a release date less than or equal to today
-        $blogs = Blog::where('blog_release_date_and_time', '<=', $today)->get();
-    
-        return view('pages.blogs', compact('blogs'));
-    }
-    */
-
 
     public function index()
     {
@@ -136,4 +123,23 @@ class BlogController extends Controller
         return redirect()->route('blogs.index')->with('success', 'Blog approval status updated successfully!');
     }
 
+    public function sendDailyEmail()
+    {
+        $today = Carbon::now('Asia/Manila')->format('Y-m-d');
+        $blogs = Blog::whereDate('blog_release_date_and_time', $today)
+                     ->where('blog_approved', true)
+                     ->get();
+    
+        if ($blogs->isNotEmpty()) {
+            foreach ($blogs as $blog) {
+                $emails = User::pluck('email')->merge(Seeker::pluck('seeker_email'))->unique();
+    
+                foreach ($emails as $email) {
+                    Mail::to($email)->send(new DailyBlogReport($blog));
+                }
+            }
+        } else {
+            \Log::info('No approved blogs found for today, no emails sent.');
+        }
+    }              
 }

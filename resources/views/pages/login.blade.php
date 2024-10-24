@@ -2,6 +2,8 @@
 
 @section('title', 'Login')
 
+@include('components.loading')
+
 @section('content')
     <div>
         <h2 class="auth-title">Login</h2>

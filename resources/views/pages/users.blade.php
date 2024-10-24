@@ -6,6 +6,8 @@
     <link rel="stylesheet" href="{{ asset('css/usersList.css?v=1.6') }}">
 @endsection
 
+@include('components.loading')
+
 @section('content')
     <div>
         <table class="user-table">

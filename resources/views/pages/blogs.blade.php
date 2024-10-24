@@ -6,6 +6,8 @@
     <link rel="stylesheet" href="{{ asset('css/blogs.css?v=1.6') }}">
 @endsection
 
+@include('components.loading')
+
 @section('content')
     <div>
         @if (session('success'))
