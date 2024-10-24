@@ -135,31 +135,29 @@ class BlogController extends Controller
     
         if ($blogs->isNotEmpty()) {
             foreach ($blogs as $blog) {
-                // Fetch users with their first names
-                $userEmails = User::select('email', 'user_fname')->get();
                 // Fetch seekers with their first names
                 $seekerEmails = Seeker::select('seeker_email', 'seeker_fname')->get();
     
-                // Merge emails and names
-                $emails = $userEmails->merge($seekerEmails);
-    
                 // Log the total number of emails being sent for the current blog
-                \Log::info('Number of recipients for blog "' . $blog->blog_title . '": ' . $emails->count());
+                \Log::info('Number of recipients for blog "' . $blog->blog_title . '": ' . $seekerEmails->count());
     
-                foreach ($emails as $entry) {
-                    // Determine the correct email and first name
-                    $email = $entry->email ?? $entry->seeker_email;
-                    $firstName = $entry->user_fname ?? $entry->seeker_fname;
+                foreach ($seekerEmails as $entry) {
+                    // Determine the email and first name
+                    $email = $entry->seeker_email;
+                    $firstName = $entry->seeker_fname;
     
                     // Replace [fname] in the blog intro with the actual first name
                     $blogIntro = str_replace('[fname]', $firstName, $blog->blog_intro);
     
                     // Send the email with the modified blog intro
                     Mail::to($email)->send(new DailyBlogReport($blog, $firstName, $blogIntro));
+    
+                    // Log the sent email
+                    \Log::info('Email sent to: ' . $email . ' for blog: ' . $blog->blog_title);
                 }
             }
         } else {
             \Log::info('No approved blogs found for today, no emails sent.');
         }
-    }      
+    }        
 }
