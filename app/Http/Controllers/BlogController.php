@@ -130,6 +130,9 @@ class BlogController extends Controller
                      ->where('blog_approved', true)
                      ->get();
     
+        // Log the number of approved blogs
+        \Log::info('Number of approved blogs for today: ' . $blogs->count());
+    
         if ($blogs->isNotEmpty()) {
             foreach ($blogs as $blog) {
                 // Fetch users with their first names
@@ -139,6 +142,9 @@ class BlogController extends Controller
     
                 // Merge emails and names
                 $emails = $userEmails->merge($seekerEmails);
+    
+                // Log the total number of emails being sent for the current blog
+                \Log::info('Number of recipients for blog "' . $blog->blog_title . '": ' . $emails->count());
     
                 foreach ($emails as $entry) {
                     // Determine the correct email and first name
@@ -155,5 +161,5 @@ class BlogController extends Controller
         } else {
             \Log::info('No approved blogs found for today, no emails sent.');
         }
-    }    
+    }      
 }
