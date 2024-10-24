@@ -69,9 +69,9 @@
 <body>
     <div class="container">
         <h1 class="blog-title">{{ $blog->blog_title }}</h1>
-        <p class="blog-intro">{{ html_entity_decode(strip_tags($blogIntro)) }}</p>
+        <div class="blog-intro">{!! $blogIntro !!}</div> <!-- Render blog intro as HTML -->
         <p class="blog-intro">Be encouraged! <br>Mike Pineda</p>
-        <a href="https://blogs.wotgonline.com/blogs/{{ $blog->id }}" class="like-button" style="color: #c0392b;">Read Full Article Here</a>
+        <a href="https://blogs.wotgonline.com/blogs/{{ $blog->id }}" class="like-button">Read Full Article Here</a>
     </div>
     <footer class="footer">
         <p>&copy; {{ date('Y') }} WOTG. All rights reserved.</p>
