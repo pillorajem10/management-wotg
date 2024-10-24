@@ -70,7 +70,6 @@
     <div class="container">
         <h1 class="blog-title">{{ $blog->blog_title }}</h1>
         <div class="blog-intro">{!! $blogIntro !!}</div> <!-- Render blog intro as HTML -->
-        <p class="blog-intro">Be encouraged! <br>Mike Pineda</p>
         <a href="https://blogs.wotgonline.com/blogs/{{ $blog->id }}" class="like-button">Read Full Article Here</a>
     </div>
     <footer class="footer">
