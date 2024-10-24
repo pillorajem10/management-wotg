@@ -3,7 +3,7 @@
 @section('title', 'Add Blog')
 
 @section('styles')
-    <link rel="stylesheet" href="{{ asset('css/addBlog.css?v=1.6') }}">
+    <link rel="stylesheet" href="{{ asset('css/addBlog.css?v=1.7') }}">
     <script src="https://cdn.ckeditor.com/4.16.1/standard/ckeditor.js"></script>
 @endsection
 
@@ -13,6 +13,16 @@
     <div class="blog-container">
         @if (session('success'))
             <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
+
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
         @endif
 
         <form action="{{ route('blogs.store') }}" method="POST" enctype="multipart/form-data" class="blog-form">
@@ -28,7 +38,7 @@
 
             <div class="form-group">
                 <label for="blog_intro" class="form-label">Blog Intro</label>
-                <input type="text" name="blog_intro" id="blog_intro" class="form-input" required>
+                <textarea name="blog_intro" id="blog_intro" class="form-textarea" required>{{ old('blog_intro') }}</textarea>
                 @error('blog_intro')
                     <div class="text-danger">{{ $message }}</div>
                 @enderror
@@ -48,32 +58,23 @@
                 @error('blog_thumbnail')
                     <div class="text-danger">{{ $message }}</div>
                 @enderror
-            </div>            
+            </div>
+
+            <div class="form-group">
+                <img id="image_preview" src="" alt="Image Preview" style="display:none; max-width: 300px; margin-top: 10px;">
+            </div>
         
             <div class="form-group">
-                <label for="blog_release_date_and_time" class="form-label">Release Date and Time</label>
-                <input type="datetime-local" name="blog_release_date_and_time" id="blog_release_date_and_time" class="form-input" required>
+                <label for="blog_release_date_and_time" class="form-label">Release Date</label>
+                <input type="date" name="blog_release_date_and_time" id="blog_release_date_and_time" class="form-input" required>
                 @error('blog_release_date_and_time')
                     <div class="text-danger">{{ $message }}</div>
                 @enderror
-            </div>
+            </div>            
         
             <button type="submit" class="btn-submit">Save</button>
-        </form>        
+        </form>
+        
+        <script src="{{ asset('js/addBlog.js?v=1.7') }}"></script>
     </div>
-
-    <script>
-        // Initialize CKEditor
-        CKEDITOR.replace('blog_body', {
-            toolbar: [
-                { name: 'document', items: ['Source', '-', 'Save', 'NewPage', 'Preview'] },
-                { name: 'clipboard', items: ['Cut', 'Copy', 'Paste', 'Undo', 'Redo'] },
-                { name: 'editing', items: ['Find', 'Replace', 'SelectAll'] },
-                { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike'] },
-                { name: 'paragraph', items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote'] },
-                { name: 'styles', items: ['Styles', 'Format'] },
-                { name: 'colors', items: ['TextColor', 'BGColor'] },
-            ],
-        });
-    </script>
 @endsection

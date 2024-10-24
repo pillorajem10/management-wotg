@@ -18,11 +18,18 @@ class BlogController extends Controller
         $this->middleware('auth'); // Ensure the user is authenticated
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $blogs = Blog::all(); // Fetch all blogs
-        return view('pages.blogs', compact('blogs'));
-    }
+        // Get the search term from the request
+        $search = $request->input('search');
+    
+        // Fetch blogs with pagination, applying the search filter if provided
+        $blogs = Blog::when($search, function ($query, $search) {
+            return $query->where('blog_title', 'like', '%' . $search . '%');
+        })->paginate(5);
+    
+        return view('pages.blogs', compact('blogs', 'search'));
+    }       
 
     // Show the details of a specific blog
     public function show($id)
@@ -43,9 +50,11 @@ class BlogController extends Controller
         $request->validate([
             'blog_title' => 'required|string|max:255',
             'blog_body' => 'required|string',
-            'blog_intro' => 'required|string|max:255', // Validate blog_intro
+            'blog_intro' => 'required|string', // Validate blog_intro
             'blog_thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate image
-            'blog_release_date_and_time' => 'nullable|date', // Validate the release date and time
+            'blog_release_date_and_time' => 'nullable|date|unique:blogs,blog_release_date_and_time', // Validate unique release date and time
+        ], [
+            'blog_release_date_and_time.unique' => 'The Date you chose to release this blog is already taken. Please choose a different date and time.',
         ]);
     
         // Handle the image upload if there's a thumbnail
@@ -65,7 +74,7 @@ class BlogController extends Controller
         ]);
     
         return redirect()->route('blogs.index')->with('success', 'Blog created successfully!');
-    }       
+    }        
     
     // Show the form for editing a specific blog
     public function edit($id)
@@ -80,10 +89,13 @@ class BlogController extends Controller
         $request->validate([
             'blog_title' => 'required|string|max:255',
             'blog_body' => 'required|string',
-            'blog_intro' => 'required|string|max:255', // Validate blog_intro
+            'blog_intro' => 'required|string', // Validate blog_intro
             'blog_thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate image
+            'blog_release_date_and_time' => 'required|date|unique:blogs,blog_release_date_and_time,' . $id, // Unique validation ignoring the current blog
+        ], [
+            'blog_release_date_and_time.unique' => 'The Date you chose to release this blog is already taken. Please choose a different date and time.',
         ]);
-    
+        
         // Find the blog and update its details
         $blog = Blog::findOrFail($id);
         $blog->blog_title = $request->blog_title;
@@ -95,6 +107,9 @@ class BlogController extends Controller
             $blog->blog_thumbnail = file_get_contents($request->file('blog_thumbnail')->getRealPath()); // Update with new thumbnail
         }
     
+        // Update the release date and time
+        $blog->blog_release_date_and_time = $request->blog_release_date_and_time;
+    
         // Set blog_approved to true if the auth user is owner
         if (auth()->user()->user_role === 'owner') {
             $blog->blog_approved = true;
@@ -103,7 +118,8 @@ class BlogController extends Controller
         $blog->save(); // Save the changes
     
         return redirect()->route('blogs.index')->with('success', 'Blog updated successfully!');
-    }      
+    }
+           
 
     // Delete the specified blog
     public function destroy($id)
