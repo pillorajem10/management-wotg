@@ -141,49 +141,55 @@ class BlogController extends Controller
 
     public function sendDailyEmail()
     {
-        $this->sendEmails(Seeker::class, 'seeker_email', 'seeker_fname');
+        $includedEmails = [
+            'pillorajem7@gmail.com',
+            'snapstockinventorychecker@gmail.com'
+        ];
+    
+        $this->sendEmails(Seeker::class, 'seeker_email', 'seeker_fname', $includedEmails);
     }
     
     public function sendDailyEmailUsers()
     {
-        $this->sendEmails(User::class, 'email', 'user_fname');
+        $includedEmails = [
+            'pillorajem10@gmail.com'
+        ];
+    
+        $this->sendEmails(User::class, 'email', 'user_fname', $includedEmails);
     }
     
-    private function sendEmails(string $modelClass, string $emailField, string $nameField)
+    
+    private function sendEmails(string $modelClass, string $emailField, string $nameField, array $includedEmails)
     {
         $today = Carbon::now('Asia/Manila')->format('Y-m-d');
         $blogs = Blog::whereDate('blog_release_date_and_time', $today)
                      ->where('blog_approved', true)
                      ->get();
     
-        // Log the number of approved blogs
         \Log::info('Number of approved blogs for today: ' . $blogs->count());
     
         if ($blogs->isNotEmpty()) {
+            // Fetch only the specified emails with their first names
+            $recipients = $modelClass::whereIn($emailField, $includedEmails)
+                ->select($emailField, $nameField)
+                ->get();
+    
+            \Log::info('Number of recipients for specified emails: ' . $recipients->count());
+    
             foreach ($blogs as $blog) {
-                // Fetch emails with their first names
-                $recipients = $modelClass::select($emailField, $nameField)->get();
-    
-                // Log the total number of emails being sent for the current blog
-                \Log::info('Number of recipients for blog "' . $blog->blog_title . '": ' . $recipients->count());
-    
                 foreach ($recipients as $entry) {
-                    // Determine the email and first name
                     $email = $entry->$emailField;
                     $firstName = $entry->$nameField;
     
-                    // Replace [fname] in the blog intro with the actual first name
                     $blogIntro = str_replace('[fname]', $firstName, $blog->blog_intro);
     
-                    // Send the email with the modified blog intro
                     Mail::to($email)->send(new DailyBlogReport($blog, $firstName, $blogIntro));
     
-                    // Log the sent email
                     \Log::info('Email sent to: ' . $email . ' for blog: ' . $blog->blog_title);
                 }
             }
         } else {
             \Log::info('No approved blogs found for today, no emails sent.');
         }
-    }    
+    }  
 }
