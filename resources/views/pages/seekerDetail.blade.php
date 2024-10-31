@@ -3,14 +3,14 @@
 @section('title', 'Seeker Details')
 
 @section('styles')
-    <link rel="stylesheet" href="{{ asset('css/seekerDetails.css?v=1.8') }}">
+    <link rel="stylesheet" href="{{ asset('css/seekerDetails.css?v=1.9') }}">
 @endsection
 
 @include('components.loading')
 
 @section('content')
     <div class="back-link">
-        <a href="/seekers" class="back-button">
+        <a href="{{ route('seekers.index', ['search' => session('seeker_search_term', ''), 'page' => session('seeker_current_page', 1)]) }}" class="back-button">
             <span class="arrow">&larr;</span> Go Back
         </a>
     </div>

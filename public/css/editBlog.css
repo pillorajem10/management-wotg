@@ -22,6 +22,31 @@
     font-weight: bold;
 }
 
+.back-link {
+    margin: 20px 0; /* Add some spacing above and below the button */
+    text-align: left; /* Align the button to the left */
+}
+
+.back-button {
+    display: inline-block; /* Make it behave like a button */
+    padding: 10px 15px; /* Add some padding for a button feel */
+    background-color: #c0392b; /* Change this to your desired background color */
+    color: white; /* Button text color */
+    border: none; /* Remove default border */
+    border-radius: 5px; /* Rounded corners */
+    text-decoration: none; /* Remove underline */
+    font-size: 16px; /* Font size */
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+
+.back-button:hover {
+    background-color: darkred; /* Darker color on hover */
+    color: #fff; /* Ensure text color remains white on hover */
+    text-decoration: none; /* Remove underline */
+    color: white; /* Button text color */
+}
+
+
 .form-input,
 .form-textarea,
 .form-file {

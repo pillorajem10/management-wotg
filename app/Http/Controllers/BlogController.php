@@ -22,6 +22,15 @@ class BlogController extends Controller
     {
         // Get the search term from the request
         $search = $request->input('search');
+        
+        // Store the search term in the session
+        session(['blog_search_term' => $search]);
+    
+        // Get the current page from the request, default to 1 if not set
+        $currentPage = $request->input('page', 1);
+    
+        // Store the current page in the session
+        session(['blog_current_page' => $currentPage]);
     
         // Fetch blogs with pagination, applying the search filter if provided
         $blogs = Blog::when($search, function ($query, $search) {
@@ -29,7 +38,8 @@ class BlogController extends Controller
         })->paginate(5);
     
         return view('pages.blogs', compact('blogs', 'search'));
-    }       
+    }
+          
 
     // Show the details of a specific blog
     public function show($id)

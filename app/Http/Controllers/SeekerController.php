@@ -24,6 +24,15 @@ class SeekerController extends Controller
     
         // Get the search query from the request
         $search = $request->input('search');
+        
+        // Store the search term in the session
+        session(['seeker_search_term' => $search]);
+    
+        // Get the current page from the request, default to 1 if not set
+        $currentPage = $request->input('page', 1);
+    
+        // Store the current page in the session
+        session(['seeker_current_page' => $currentPage]);
     
         // Retrieve seekers from the database with pagination, applying search filters
         $seekers = Seeker::when($search, function ($query) use ($search) {
@@ -34,6 +43,7 @@ class SeekerController extends Controller
         // Return the pages/seekerList view and pass the seekers data
         return view('pages.seekersList', compact('seekers', 'search'));
     }
+    
     
     
     // Show the sign-up form for seekers

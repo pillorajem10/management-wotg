@@ -44,7 +44,7 @@
         </div>
 
         <div class="text-center">
-            <a href="{{ route('blogs.index') }}" class="btn-back">Back to Blogs</a>
-        </div>
+            <a href="{{ route('blogs.index', ['search' => session('blog_search_term', ''), 'page' => session('blog_current_page', 1)]) }}" class="btn-back">Back to Blogs</a>
+        </div>        
     </div>
 @endsection

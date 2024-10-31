@@ -3,7 +3,7 @@
 @section('title', 'Edit Blog')
 
 @section('styles')
-    <link rel="stylesheet" href="{{ asset('css/editBlog.css?v=1.8') }}">
+    <link rel="stylesheet" href="{{ asset('css/editBlog.css?v=1.9') }}">
     <script src="https://cdn.ckeditor.com/4.16.1/standard/ckeditor.js"></script>
 @endsection
 
@@ -11,6 +11,12 @@
 
 @section('content')
     <div class="blog-container">
+        <div class="back-link">
+            <a href="{{ route('blogs.index', ['search' => session('blog_search_term', ''), 'page' => session('blog_current_page', 1)]) }}" class="back-button btn">
+                <span class="arrow">&larr;</span> Go Back to Blogs
+            </a>
+        </div>        
+
         @if (session('success'))
             <div class="alert alert-success">{{ session('success') }}</div>
         @endif
@@ -81,6 +87,6 @@
             </button>
         </form>    
 
-        <script src="{{ asset('js/editBlog.js?v=1.8') }}"></script>
+        <script src="{{ asset('js/editBlog.js?v=1.9') }}"></script>
     </div>
 @endsection
