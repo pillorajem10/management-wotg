@@ -3,7 +3,7 @@
 @section('title', 'Seekers List')
 
 @section('styles')
-    <link rel="stylesheet" href="{{ asset('css/seekersList.css?v=1.7') }}">
+    <link rel="stylesheet" href="{{ asset('css/seekersList.css?v=1.8') }}">
 @endsection
 
 @include('components.loading')
@@ -21,6 +21,15 @@
                 {{ session('error') }}
             </div>
         @endif
+
+        <!-- Search Form -->
+        <div class="search-container">
+            <form method="GET" action="{{ route('seekers.index') }}" class="search-form">
+                <input type="text" name="search" value="{{ request()->input('search') }}" placeholder="Search by Name" class="search-input" />
+                <button type="submit" class="search-button">Search</button>
+            </form>
+            <a href="{{ route('seekers.index') }}" class="clear-button">Clear</a>
+        </div>
 
         <div class="table-responsive">
             <table class="seeker-table">
@@ -45,6 +54,11 @@
                     @endforeach
                 </tbody>
             </table>            
+        </div>
+
+        <!-- Pagination Links -->
+        <div class="pagination-wrapper">
+            {{ $seekers->appends(request()->query())->links('vendor.pagination.bootstrap-4') }}
         </div>
     </div>
 @endsection

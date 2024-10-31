@@ -70,6 +70,57 @@
     transition: background-color 0.3s, color 0.3s; /* Transition for hover effect */
 }
 
+.search-container {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.search-form {
+    display: inline-flex;
+    align-items: center;
+}
+
+.search-input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 250px; /* Adjust as needed */
+    margin-right: 10px;
+}
+
+.search-button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: #c0392b; /* Bootstrap primary color */
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.search-button:hover {
+    background-color: darkred; /* Darker shade for hover effect */
+}
+
+.clear-button {
+    display: inline-block;
+    padding: 10px 15px;
+    border: 1px solid #ccc; /* Light border */
+    border-radius: 5px;
+    background-color: #f8f9fa; /* Light background */
+    color: #333; /* Dark text */
+    text-decoration: none; /* Remove underline */
+    margin-left: 10px; /* Space between the search button and clear button */
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.clear-button:hover {
+    background-color: #e2e6ea; /* Darker shade on hover */
+    color: #000; /* Darker text on hover */
+}
+
+
+
 /* Responsive Styles */
 @media (max-width: 700px) {
     .seeker-body {

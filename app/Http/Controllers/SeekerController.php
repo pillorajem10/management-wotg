@@ -15,20 +15,27 @@ class SeekerController extends Controller
         $this->middleware('auth'); // Ensure the user is authenticated
     }
 
-    public function index()
+    public function index(Request $request)
     {
         // Check if the user is not logged in
         if (!auth()->check()) {
             return redirect()->route('auth.login'); // Redirect to the login page
         }
     
-        // Retrieve all seekers from the database
-        $seekers = Seeker::all();
+        // Get the search query from the request
+        $search = $request->input('search');
+    
+        // Retrieve seekers from the database with pagination, applying search filters
+        $seekers = Seeker::when($search, function ($query) use ($search) {
+            return $query->where('seeker_fname', 'like', "%{$search}%")
+                         ->orWhere('seeker_lname', 'like', "%{$search}%");
+        })->paginate(10); // Adjust the number to change items per page
     
         // Return the pages/seekerList view and pass the seekers data
-        return view('pages.seekersList', compact('seekers'));
+        return view('pages.seekersList', compact('seekers', 'search'));
     }
-
+    
+    
     // Show the sign-up form for seekers
     public function showSignupForm()
     {
