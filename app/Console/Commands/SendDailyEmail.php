@@ -12,9 +12,13 @@ class SendDailyEmail extends Command
 
     public function handle()
     {
-        // Create an instance of the BlogController and call the method
-        (new BlogController())->sendDailyEmail();
-        
-        $this->info('Daily email sent successfully!');
+        // Create an instance of the BlogController
+        $blogController = new BlogController();
+
+        // Call the methods to send emails to seekers and users
+        $blogController->sendDailyEmail();
+        $blogController->sendDailyEmailUsers();
+
+        $this->info('Daily emails sent successfully!');
     }
 }

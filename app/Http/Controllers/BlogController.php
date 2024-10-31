@@ -141,6 +141,16 @@ class BlogController extends Controller
 
     public function sendDailyEmail()
     {
+        $this->sendEmails(Seeker::class, 'seeker_email', 'seeker_fname');
+    }
+    
+    public function sendDailyEmailUsers()
+    {
+        $this->sendEmails(User::class, 'email', 'user_fname');
+    }
+    
+    private function sendEmails(string $modelClass, string $emailField, string $nameField)
+    {
         $today = Carbon::now('Asia/Manila')->format('Y-m-d');
         $blogs = Blog::whereDate('blog_release_date_and_time', $today)
                      ->where('blog_approved', true)
@@ -151,16 +161,16 @@ class BlogController extends Controller
     
         if ($blogs->isNotEmpty()) {
             foreach ($blogs as $blog) {
-                // Fetch seekers with their first names
-                $seekerEmails = Seeker::select('seeker_email', 'seeker_fname')->get();
+                // Fetch emails with their first names
+                $recipients = $modelClass::select($emailField, $nameField)->get();
     
                 // Log the total number of emails being sent for the current blog
-                \Log::info('Number of recipients for blog "' . $blog->blog_title . '": ' . $seekerEmails->count());
+                \Log::info('Number of recipients for blog "' . $blog->blog_title . '": ' . $recipients->count());
     
-                foreach ($seekerEmails as $entry) {
+                foreach ($recipients as $entry) {
                     // Determine the email and first name
-                    $email = $entry->seeker_email;
-                    $firstName = $entry->seeker_fname;
+                    $email = $entry->$emailField;
+                    $firstName = $entry->$nameField;
     
                     // Replace [fname] in the blog intro with the actual first name
                     $blogIntro = str_replace('[fname]', $firstName, $blog->blog_intro);
@@ -175,5 +185,5 @@ class BlogController extends Controller
         } else {
             \Log::info('No approved blogs found for today, no emails sent.');
         }
-    }        
+    }    
 }
