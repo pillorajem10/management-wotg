@@ -6,6 +6,7 @@ use App\Models\Seeker;
 use App\Mail\SeekerEmail;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Mail\MissionaryAssigned;
 use Illuminate\Support\Facades\Mail;
 
 class SeekerController extends Controller
@@ -104,14 +105,21 @@ class SeekerController extends Controller
         $request->validate([
             'missionary_id' => 'required|exists:users,id',
         ]);
-
+    
         // Retrieve the seeker by ID
         $seeker = Seeker::findOrFail($id);
         
         // Update the seeker's assigned missionary
         $seeker->seeker_missionary = $request->missionary_id;
         $seeker->save();
-
+    
+        // Retrieve the missionary's email
+        $missionary = User::findOrFail($request->missionary_id);
+        $seekerName = $seeker->seeker_fname . ' ' . $seeker->seeker_lname;
+    
+        // Send email notification
+        Mail::to($missionary->email)->send(new MissionaryAssigned($seekerName));
+    
         // Redirect back with a success message
         return redirect()->route('seekers.view', $id)->with('success', 'Missionary updated successfully!');
     }
