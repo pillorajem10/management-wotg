@@ -4,8 +4,7 @@
     <title>New Seeker Assigned</title>
 </head>
 <body>
-    <h1>You have been assigned to a new seeker!</h1>
-    <p>Dear Missionary,</p>
+    <p>Dear {{ $missionaryFirstName }},</p>  <!-- Greet the missionary by their first name -->
     <p>You have been assigned to a new seeker named {{ $seekerName }}.</p>
     <p>Thank you for your service!</p>
 </body>

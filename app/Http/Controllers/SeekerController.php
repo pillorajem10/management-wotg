@@ -113,16 +113,18 @@ class SeekerController extends Controller
         $seeker->seeker_missionary = $request->missionary_id;
         $seeker->save();
     
-        // Retrieve the missionary's email
+        // Retrieve the missionary's information
         $missionary = User::findOrFail($request->missionary_id);
         $seekerName = $seeker->seeker_fname . ' ' . $seeker->seeker_lname;
+        $missionaryFirstName = $missionary->user_fname;  // Fetch missionary's first name
     
         // Send email notification
-        Mail::to($missionary->email)->send(new MissionaryAssigned($seekerName));
+        Mail::to($missionary->email)->send(new MissionaryAssigned($seekerName, $missionaryFirstName));
     
         // Redirect back with a success message
         return redirect()->route('seekers.view', $id)->with('success', 'Missionary updated successfully!');
     }
+    
 
 
     // Send email to selected seekers
