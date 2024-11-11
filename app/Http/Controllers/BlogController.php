@@ -148,52 +148,52 @@ class BlogController extends Controller
 
         return redirect()->route('blogs.index')->with('success', 'Blog approval status updated successfully!');
     }
-
+    
     public function sendDailyEmail()
     {
-        $this->sendEmails(Seeker::class, 'seeker_email', 'seeker_fname');
+        $this->sendEmails(Seeker::class, 'seeker_email', 'seeker_fname', 50); // Send in batches of 50
     }
     
     public function sendDailyEmailUsers()
     {
-        $this->sendEmails(User::class, 'email', 'user_fname');
+        $this->sendEmails(User::class, 'email', 'user_fname', 50); // Send in batches of 50
     }
     
-    private function sendEmails(string $modelClass, string $emailField, string $nameField)
+    private function sendEmails(string $modelClass, string $emailField, string $nameField, int $batchSize)
     {
         $today = Carbon::now('Asia/Manila')->format('Y-m-d');
         $blogs = Blog::whereDate('blog_release_date_and_time', $today)
                      ->where('blog_approved', true)
                      ->get();
     
-        // Log the number of approved blogs
         \Log::info('Number of approved blogs for today: ' . $blogs->count());
     
         if ($blogs->isNotEmpty()) {
             foreach ($blogs as $blog) {
-                // Fetch emails with their first names
+                // Fetch all recipients
                 $recipients = $modelClass::select($emailField, $nameField)->get();
+                \Log::info('Total recipients for blog "' . $blog->blog_title . '": ' . $recipients->count());
     
-                // Log the total number of emails being sent for the current blog
-                \Log::info('Number of recipients for blog "' . $blog->blog_title . '": ' . $recipients->count());
+                // Process recipients in batches
+                foreach ($recipients->chunk($batchSize) as $batch) {
+                    foreach ($batch as $entry) {
+                        $email = $entry->$emailField;
+                        $firstName = $entry->$nameField;
     
-                foreach ($recipients as $entry) {
-                    // Determine the email and first name
-                    $email = $entry->$emailField;
-                    $firstName = $entry->$nameField;
+                        $blogIntro = str_replace('[fname]', $firstName, $blog->blog_intro);
     
-                    // Replace [fname] in the blog intro with the actual first name
-                    $blogIntro = str_replace('[fname]', $firstName, $blog->blog_intro);
+                        Mail::to($email)->send(new DailyBlogReport($blog, $firstName, $blogIntro));
+                        \Log::info('Email sent to: ' . $email . ' for blog: ' . $blog->blog_title);
+                    }
     
-                    // Send the email with the modified blog intro
-                    Mail::to($email)->send(new DailyBlogReport($blog, $firstName, $blogIntro));
-    
-                    // Log the sent email
-                    \Log::info('Email sent to: ' . $email . ' for blog: ' . $blog->blog_title);
+                    // Delay for 5 minutes (300 seconds) after each batch
+                    \Log::info('Batch of ' . $batchSize . ' emails sent. Waiting 5 minutes before the next batch.');
+                    sleep(300);
                 }
             }
         } else {
             \Log::info('No approved blogs found for today, no emails sent.');
         }
-    }    
+    }
+     
 }
