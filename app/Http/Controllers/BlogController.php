@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Blog;
 use App\Models\User;
 use App\Models\Seeker;
+use App\Models\Subscriber;
 use Illuminate\Http\Request;
 use App\Mail\DailyBlogReport; 
 use Carbon\Carbon; 
@@ -157,6 +158,11 @@ class BlogController extends Controller
     public function sendDailyEmailUsers()
     {
         $this->sendEmails(User::class, 'email', 'user_fname', 50); // Send in batches of 50
+    }
+
+    public function sendDailyEmailSubs()
+    {
+        $this->sendEmails(Subscriber::class, 'sub_email', 'sub_fname', 50); // Send in batches of 50
     }
     
     private function sendEmails(string $modelClass, string $emailField, string $nameField, int $batchSize)
