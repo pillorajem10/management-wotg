@@ -1,27 +1,28 @@
+/* Main container for the content */
 .user-container {
-    max-width: 1200px;
-    margin: 0 auto;
+    max-width: 1200px; /* Max width for the user container */
+    margin: 0 auto; /* Center-align the container */
     padding: 20px;
+    overflow: hidden; /* Ensure that the user container does not overflow */
 }
 
-.page-title {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #333;
-}
-
+/* Container around the table to handle overflow */
 .table-container {
-    overflow-x: auto; /* Enable horizontal scrolling */
+    overflow-x: auto; /* Enable horizontal scrolling only in the table container */
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling for touch devices */
+    margin-bottom: 20px; /* Optional: space between table and other content */
 }
 
+/* Table styling */
 .user-table {
-    width: 100%;
+    width: 100%; /* Table should take the full width of its parent container */
+    min-width: 600px; /* Ensure the table has a minimum width, preventing it from shrinking too much */
     border-collapse: collapse; /* Merge borders */
-    margin: 20px 0;
     background-color: #fff;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
+/* Header cell styling */
 .user-table-header {
     background-color: #c0392b;
     color: #fff;
@@ -30,28 +31,32 @@
 .user-table-header-cell, .user-table-cell {
     padding: 12px 15px;
     text-align: left;
-    border: 1px solid #ddd; /* Add border to cells */
+    border: 1px solid #ddd; /* Border between cells */
 }
 
+/* Alternate row background color */
 .user-table-row:nth-child(even) {
     background-color: #f2f2f2;
 }
 
+/* Row hover effect */
 .user-table-row:hover {
     background-color: #f1f1f1;
 }
 
+/* Empty state message when there are no users */
 .user-table-empty {
     text-align: center;
 }
 
+/* Responsive design */
 @media (max-width: 800px) {
     .user-table-header-cell, .user-table-cell {
-        font-size: 0.7rem; /* Lower font size */
-        padding: 8px 10px; /* Decrease padding */
+        font-size: 0.7rem; /* Smaller font size for smaller screens */
+        padding: 8px 10px; /* Less padding for compact display */
     }
-    
+
     .page-title {
-        font-size: 1rem; /* Optional: Adjust title font size as well */
+        font-size: 1rem; /* Adjust title font size */
     }
 }
