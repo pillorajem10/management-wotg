@@ -21,19 +21,21 @@ class UserController extends Controller
     
         // Fetch users with pagination, applying filters
         $users = User::when($search, function($query, $search) {
-                    return $query->where('user_fname', 'like', '%' . $search . '%')
-                                 ->orWhere('user_lname', 'like', '%' . $search . '%');
-                })
-                ->when($userMinistry, function($query, $userMinistry) {
-                    return $query->where('user_ministry', $userMinistry);
-                })
-                ->when($dGroupLeader, function($query, $dGroupLeader) {
-                    if ($dGroupLeader === 'none') {
-                        return $query->whereNull('user_dgroup_leader');
-                    }
-                    return $query->where('user_dgroup_leader', $dGroupLeader);
-                })
-                ->paginate(15);
+            return $query->where('user_fname', 'like', '%' . $search . '%')
+                            ->orWhere('user_lname', 'like', '%' . $search . '%');
+            })
+            ->when($userMinistry, function($query, $userMinistry) {
+                return $query->where('user_ministry', $userMinistry);
+            })
+            ->when($dGroupLeader, function($query, $dGroupLeader) {
+                if ($dGroupLeader === 'none') {
+                    return $query->whereNull('user_dgroup_leader');
+                }
+                return $query->where('user_dgroup_leader', $dGroupLeader);
+            })
+            ->paginate(15)
+            ->appends($request->query()); // Append all current query parameters
+
     
         // Fetch all users to populate the D-Group leader dropdown
         $dGroupLeaders = User::whereNotNull('user_dgroup_leader')

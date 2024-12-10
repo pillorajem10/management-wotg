@@ -103,11 +103,10 @@
             </table>
         </div>
 
-        <!-- Pagination links -->
         <nav aria-label="Page navigation">
             <ul class="pagination justify-content-center">
-                {{ $users->appends(['search' => session('search')])->links('vendor.pagination.bootstrap-4') }}
+                {{ $users->links('vendor.pagination.bootstrap-4') }}
             </ul>
-        </nav> 
+        </nav>
     </div>
 @endsection
