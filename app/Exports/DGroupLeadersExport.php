@@ -22,7 +22,7 @@ class DGroupLeadersExport implements FromCollection, WithHeadings, WithColumnWid
         $menLeaders = $this->users->where('user_already_a_dgroup_leader', 1)->where('user_gender', 'male');
         $womenLeaders = $this->users->where('user_already_a_dgroup_leader', 1)->where('user_gender', 'female');
         $volunteers = $this->users->where('user_ministry', '!=', 'None')->whereNotNull('user_ministry');
-        
+
         $data = [];
 
         // Men Group Section
@@ -35,7 +35,7 @@ class DGroupLeadersExport implements FromCollection, WithHeadings, WithColumnWid
             $data[] = [
                 $this->formatName($user->user_fname . ' ' . $user->user_lname), // Auto-format name
                 $memberCount,
-                $user->user_meeting_day . ' ' . $user->user_meeting_time
+                $user->user_meeting_day . ' ' . $this->formatTime($user->user_meeting_time)
             ];
         }
         $data[] = [''];
@@ -57,7 +57,7 @@ class DGroupLeadersExport implements FromCollection, WithHeadings, WithColumnWid
             $data[] = [
                 $this->formatName($user->user_fname . ' ' . $user->user_lname), // Auto-format name
                 $memberCount,
-                $user->user_meeting_day . ' ' . $user->user_meeting_time
+                $user->user_meeting_day . ' ' . $this->formatTime($user->user_meeting_time)
             ];
         }
         $data[] = [''];
@@ -110,6 +110,25 @@ class DGroupLeadersExport implements FromCollection, WithHeadings, WithColumnWid
     private function formatName(string $name): string
     {
         return mb_convert_case($name, MB_CASE_TITLE, "UTF-8");
+    }
+
+    /**
+     * Helper function to convert time from 24-hour to 12-hour format with AM/PM.
+     *
+     * @param string|null $time
+     * @return string
+     */
+    private function formatTime(?string $time): string
+    {
+        if (!$time) {
+            return '';
+        }
+
+        try {
+            return \Carbon\Carbon::createFromFormat('H:i:s', $time)->format('g:i A');
+        } catch (\Exception $e) {
+            return '';
+        }
     }
 
     public function headings(): array

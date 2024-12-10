@@ -29,8 +29,13 @@
                                 {{ $allUsers->where('user_dgroup_leader', $user->id)->count() }}
                             </td>
                             <td class="user-table-cell">
-                                {{ $user->user_meeting_day ?? null }} {{ $user->user_meeting_time ?? null }}
-                            </td>
+                                {{ $user->user_meeting_day ?? null }} 
+                                {{
+                                    $user->user_meeting_time
+                                        ? \Carbon\Carbon::createFromFormat('H:i:s', $user->user_meeting_time)->format('g:i A')
+                                        : null
+                                }}
+                            </td> 
                         </tr>
                     @empty
                         <tr class="user-table-row">
@@ -68,8 +73,13 @@
                                 {{ $allUsers->where('user_dgroup_leader', $user->id)->count() }}
                             </td>
                             <td class="user-table-cell">
-                                {{ $user->user_meeting_day ?? null }} {{ $user->user_meeting_time ?? null }}
-                            </td>
+                                {{ $user->user_meeting_day ?? null }} 
+                                {{
+                                    $user->user_meeting_time
+                                        ? \Carbon\Carbon::createFromFormat('H:i:s', $user->user_meeting_time)->format('g:i A')
+                                        : null
+                                }}
+                            </td>                            
                         </tr>
                     @empty
                         <tr class="user-table-row">
