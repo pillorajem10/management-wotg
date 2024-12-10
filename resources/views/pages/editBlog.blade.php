@@ -3,7 +3,7 @@
 @section('title', 'Edit Blog')
 
 @section('styles')
-    <link rel="stylesheet" href="{{ asset('css/editBlog.css?v=2.0') }}">
+    <link rel="stylesheet" href="{{ asset('css/editBlog.css?v=2.1') }}">
     <script src="https://cdn.ckeditor.com/4.16.1/standard/ckeditor.js"></script>
 @endsection
 
@@ -87,6 +87,6 @@
             </button>
         </form>    
 
-        <script src="{{ asset('js/editBlog.js?v=2.0') }}"></script>
+        <script src="{{ asset('js/editBlog.js?v=2.1') }}"></script>
     </div>
 @endsection

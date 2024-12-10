@@ -3,7 +3,7 @@
 @section('title', 'Dashboard')
 
 @section('styles')
-    <link rel="stylesheet" href="{{ asset('css/dashboard.css?v=2.0') }}">
+    <link rel="stylesheet" href="{{ asset('css/dashboard.css?v=2.1') }}">
 @endsection
 
 <title>@yield('title') || Word On The Go</title>
