@@ -24,7 +24,7 @@
                 <tbody>
                     @forelse ($maleDGroupLeaders as $user)
                         <tr class="user-table-row">
-                            <td class="user-table-cell">{{ $user->user_fname }} {{ $user->user_lname }}</td>
+                            <td class="user-table-cell">{{ ucwords(strtolower($user->user_fname)) }} {{ ucwords(strtolower($user->user_lname)) }}</td>
                             <td class="user-table-cell">
                                 {{ $allUsers->where('user_dgroup_leader', $user->id)->count() }}
                             </td>
@@ -63,7 +63,7 @@
                 <tbody>
                     @forelse ($femaleDGroupLeaders as $user)
                         <tr class="user-table-row">
-                            <td class="user-table-cell">{{ $user->user_fname }} {{ $user->user_lname }}</td>
+                            <td class="user-table-cell">{{ ucwords(strtolower($user->user_fname)) }} {{ ucwords(strtolower($user->user_lname)) }}</td>
                             <td class="user-table-cell">
                                 {{ $allUsers->where('user_dgroup_leader', $user->id)->count() }}
                             </td>
@@ -107,7 +107,7 @@
                 <tbody>
                     @forelse ($volunteers as $user)
                         <tr class="user-table-row">
-                            <td class="user-table-cell">{{ $user->user_fname }} {{ $user->user_lname }}</td>
+                            <td class="user-table-cell">{{ ucwords(strtolower($user->user_fname)) }} {{ ucwords(strtolower($user->user_lname)) }}</td>
                             <td class="user-table-cell">{{ $user->user_ministry }}</td>
                         </tr>
                     @empty
