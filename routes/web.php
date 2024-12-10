@@ -37,6 +37,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 
 // USER CONTROLLERS
 Route::get('/users', [UserController::class, 'index'])->name('users.index');
+Route::get('/users/export-dgroup', [UserController::class, 'export'])->name('users.dgroup');
 
 // BLOG CONTROLLER
 Route::get('/blogs', [BlogController::class, 'index'])->name('blogs.index');

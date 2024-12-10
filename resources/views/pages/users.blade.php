@@ -10,103 +10,121 @@
 
 @section('content')
     <div class="user-container">
-        <!-- Search Form -->
-        <div class="search-container">
-            <form method="GET" action="{{ route('users.index') }}" class="form-inline mb-4">
-                <div class="form-group">
-                    <input type="text" name="search" class="form-control" placeholder="Search by First or Last Name" value="{{ session('search', '') }}">
-                </div>
-                <button type="submit" class="btn btn-primary ml-2">Search</button>
-                <a href="{{ route('users.index') }}" class="btn btn-secondary ml-2">Clear</a>
-            </form>   
-            
-            <form method="GET" action="{{ route('users.index') }}" class="form-inline mb-4">
-                <div class="form-group">
-                    <select name="user_ministry" class="form-control" onchange="this.form.submit()">
-                        <option value="" disabled selected>Select a Ministry</option>
-                        <option value="Music Ministry" {{ request('user_ministry') == 'Music Ministry' ? 'selected' : '' }}>Music Ministry</option>
-                        <option value="Intercessory" {{ request('user_ministry') == 'Intercessory' ? 'selected' : '' }}>Intercessory</option>
-                        <option value="Worship Service" {{ request('user_ministry') == 'Worship Service' ? 'selected' : '' }}>Worship Service</option>
-                        <option value="Digital Missionary" {{ request('user_ministry') == 'Digital Missionary' ? 'selected' : '' }}>Digital Missionary</option>
-                        <option value="Creatives and Communication" {{ request('user_ministry') == 'Creatives and Communication' ? 'selected' : '' }}>Creatives and Communication</option>
-                        <option value="Admin" {{ request('user_ministry') == 'Admin' ? 'selected' : '' }}>Admin</option>
-                        <option value="D-Group Management" {{ request('user_ministry') == 'D-Group Management' ? 'selected' : '' }}>D-Group Management</option>
-                        <option value="None" {{ request('user_ministry') == 'None' ? 'selected' : '' }}>None</option>
-                    </select>
-                </div>
-            </form>
-
-            <form method="GET" action="{{ route('users.index') }}" class="form-inline mb-4">
-                <div class="form-group">
-                    <select name="user_dgroup_leader" class="form-control" onchange="this.form.submit()">
-                        <option value="" selected>Select a D-Group Leader</option>
-                        <option value="none" {{ request('user_dgroup_leader') == 'none' ? 'selected' : '' }}>No D-Group Leader</option>
-                        
-                        <!-- Add authenticated user option -->
-                        @if (Auth::check())
-                            <option value="{{ Auth::id() }}" {{ request('user_dgroup_leader') == Auth::id() ? 'selected' : '' }}>
-                                {{ Auth::user()->user_fname }} {{ Auth::user()->user_lname }}
-                            </option>
-                        @endif
-                        
-                        @foreach ($dGroupLeaders as $leader)
-                            <option value="{{ $leader->id }}" {{ request('user_dgroup_leader') == $leader->id ? 'selected' : '' }}>
-                                {{ $leader->user_fname }} {{ $leader->user_lname }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-            </form>
-            
-        </div>
-
+        <!-- Male D-Group Leaders -->
         <div class="table-container">
+            <h3>Men</h3>
             <table class="user-table">
                 <thead>
                     <tr class="user-table-header">
                         <th class="user-table-header-cell">Name</th>
-                        <th class="user-table-header-cell">Email</th>
-                        <th class="user-table-header-cell">Church</th>
-                        <th class="user-table-header-cell">Ministry</th>
-                        <th class="user-table-header-cell">D-Group Leader</th>
+                        <th class="user-table-header-cell">Members</th>
+                        <th class="user-table-header-cell">Day & Time</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($users as $user)
+                    @forelse ($maleDGroupLeaders as $user)
                         <tr class="user-table-row">
                             <td class="user-table-cell">{{ $user->user_fname }} {{ $user->user_lname }}</td>
-                            <td class="user-table-cell">{{ $user->email }}</td>
-                            <td class="user-table-cell">{{ $user->user_church_name }}</td>
-                            <td class="user-table-cell">{{ $user->user_ministry }}</td>
                             <td class="user-table-cell">
-                                @if ($user->user_dgroup_leader)
-                                    <!-- Fetch and display D-Group leader's name if found -->
-                                    @php
-                                        $dgroupLeader = App\Models\User::find($user->user_dgroup_leader);
-                                    @endphp
-                                    @if ($dgroupLeader)
-                                        {{ $dgroupLeader->user_fname }} {{ $dgroupLeader->user_lname }}
-                                    @else
-                                        Not a D-Group member
-                                    @endif
-                                @else
-                                    Not a D-Group member
-                                @endif
+                                {{ $allUsers->where('user_dgroup_leader', $user->id)->count() }}
+                            </td>
+                            <td class="user-table-cell">
+                                {{ $user->user_meeting_day ?? 'N/A' }} at {{ $user->user_meeting_time ?? 'N/A' }}
                             </td>
                         </tr>
                     @empty
                         <tr class="user-table-row">
-                            <td colspan="4" class="user-table-empty text-center">No users found.</td>
+                            <td colspan="3" class="user-table-empty text-center">No male D-Group Leaders found.</td>
+                        </tr>
+                    @endforelse
+                    <tr class="user-table-row total-row">
+                        <td class="user-table-cell"><strong>Total For Men</strong></td>
+                        <td class="user-table-cell"></td>
+                        <td class="user-table-cell">
+                            <strong>Total D-Group Leaders: {{ $maleDGroupLeaders->count() }}</strong><br>
+                            <strong>Total Members: {{ $totalMaleMembers }}</strong>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Female D-Group Leaders Section -->
+        <div class="table-container">
+            <h3>Women</h3>
+            <table class="user-table">
+                <thead>
+                    <tr class="user-table-header">
+                        <th class="user-table-header-cell">Name</th>
+                        <th class="user-table-header-cell">Members</th>
+                        <th class="user-table-header-cell">Day & Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse ($femaleDGroupLeaders as $user)
+                        <tr class="user-table-row">
+                            <td class="user-table-cell">{{ $user->user_fname }} {{ $user->user_lname }}</td>
+                            <td class="user-table-cell">
+                                {{ $allUsers->where('user_dgroup_leader', $user->id)->count() }}
+                            </td>
+                            <td class="user-table-cell">
+                                {{ $user->user_meeting_day ?? 'N/A' }} at {{ $user->user_meeting_time ?? 'N/A' }}
+                            </td>
+                        </tr>
+                    @empty
+                        <tr class="user-table-row">
+                            <td colspan="3" class="user-table-empty text-center">No female D-Group Leaders found.</td>
+                        </tr>
+                    @endforelse
+                    <tr class="user-table-row total-row">
+                        <td class="user-table-cell"><strong>Total For Women</strong></td>
+                        <td class="user-table-cell"></td>
+                        <td class="user-table-cell">
+                            <strong>Total D-Group Leaders: {{ $femaleDGroupLeaders->count() }}</strong><br>
+                            <strong>Total Members: {{ $totalFemaleMembers }}</strong>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="grand-total-container">
+            <div class="grand-total-summary">
+                <p><strong>Total Leaders: {{ $grandTotalDGroupLeaders }}</strong></p>
+                <p><strong>Total Members: {{ $grandTotalMembers }}</strong></p>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <h3>Volunteers</h3>
+            <table class="user-table">
+                <thead>
+                    <tr class="user-table-header">
+                        <th class="user-table-header-cell">Name</th>
+                        <th class="user-table-header-cell">Ministry</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse ($volunteers as $user)
+                        <tr class="user-table-row">
+                            <td class="user-table-cell">{{ $user->user_fname }} {{ $user->user_lname }}</td>
+                            <td class="user-table-cell">{{ $user->user_ministry }}</td>
+                        </tr>
+                    @empty
+                        <tr class="user-table-row">
+                            <td colspan="2" class="user-table-empty text-center">No volunteers found.</td>
                         </tr>
                     @endforelse
                 </tbody>
             </table>
         </div>
-
-        <nav aria-label="Page navigation">
-            <ul class="pagination justify-content-center">
-                {{ $users->links('vendor.pagination.bootstrap-4') }}
-            </ul>
-        </nav>
+        
+        <div class="grand-total-container">
+            <div class="grand-total-summary">
+                <p><strong>Total Volunteers: {{ $totalVolunteers }}</strong></p>
+            </div>
+        </div>  
+        
+        <a href="{{ route('users.dgroup') }}" class="btn btn-success">Export as Excel</a>
     </div>
 @endsection
