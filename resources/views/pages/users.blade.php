@@ -35,6 +35,29 @@
                     </select>
                 </div>
             </form>
+
+            <form method="GET" action="{{ route('users.index') }}" class="form-inline mb-4">
+                <div class="form-group">
+                    <select name="user_dgroup_leader" class="form-control" onchange="this.form.submit()">
+                        <option value="" selected>Select a D-Group Leader</option>
+                        <option value="none" {{ request('user_dgroup_leader') == 'none' ? 'selected' : '' }}>No D-Group Leader</option>
+                        
+                        <!-- Add authenticated user option -->
+                        @if (Auth::check())
+                            <option value="{{ Auth::id() }}" {{ request('user_dgroup_leader') == Auth::id() ? 'selected' : '' }}>
+                                {{ Auth::user()->user_fname }} {{ Auth::user()->user_lname }}
+                            </option>
+                        @endif
+                        
+                        @foreach ($dGroupLeaders as $leader)
+                            <option value="{{ $leader->id }}" {{ request('user_dgroup_leader') == $leader->id ? 'selected' : '' }}>
+                                {{ $leader->user_fname }} {{ $leader->user_lname }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+            </form>
+            
         </div>
 
         <div class="table-container">
