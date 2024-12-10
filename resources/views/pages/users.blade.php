@@ -29,7 +29,7 @@
                                 {{ $allUsers->where('user_dgroup_leader', $user->id)->count() }}
                             </td>
                             <td class="user-table-cell">
-                                {{ $user->user_meeting_day ?? null }} at {{ $user->user_meeting_time ?? null }}
+                                {{ $user->user_meeting_day ?? null }} {{ $user->user_meeting_time ?? null }}
                             </td>
                         </tr>
                     @empty
@@ -68,7 +68,7 @@
                                 {{ $allUsers->where('user_dgroup_leader', $user->id)->count() }}
                             </td>
                             <td class="user-table-cell">
-                                {{ $user->user_meeting_day ?? null }} at {{ $user->user_meeting_time ?? null }}
+                                {{ $user->user_meeting_day ?? null }} {{ $user->user_meeting_time ?? null }}
                             </td>
                         </tr>
                     @empty
