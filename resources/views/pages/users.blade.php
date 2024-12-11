@@ -3,7 +3,7 @@
 @section('title', 'Users')
 
 @section('styles')
-    <link rel="stylesheet" href="{{ asset('css/usersList.css?v=2.1') }}">
+    <link rel="stylesheet" href="{{ asset('css/usersList.css?v=2.2') }}">
 @endsection
 
 @include('components.loading')
@@ -19,6 +19,7 @@
                         <th class="user-table-header-cell">Name</th>
                         <th class="user-table-header-cell">Members</th>
                         <th class="user-table-header-cell">Day & Time</th>
+                        <th class="user-table-header-cell">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -35,11 +36,15 @@
                                         ? \Carbon\Carbon::createFromFormat('H:i:s', $user->user_meeting_time)->format('g:i A')
                                         : null
                                 }}
-                            </td> 
+                            </td>
+                            <td class="user-table-cell">
+                                <!-- View button -->
+                                <a href="{{ route('users.show', $user->id) }}" class="btn btn-view-leader">View</a>
+                            </td>
                         </tr>
                     @empty
                         <tr class="user-table-row">
-                            <td colspan="3" class="user-table-empty text-center">No male D-Group Leaders found.</td>
+                            <td colspan="4" class="user-table-empty text-center">No male D-Group Leaders found.</td>
                         </tr>
                     @endforelse
                     <tr class="user-table-row total-row">
@@ -49,6 +54,7 @@
                             <strong>Total D-Group Leaders: {{ $maleDGroupLeaders->count() }}</strong><br>
                             <strong>Total Members: {{ $totalMaleMembers }}</strong>
                         </td>
+                        <td class="user-table-cell"></td> <!-- Empty cell for the "Action" column -->
                     </tr>
                 </tbody>
             </table>
@@ -63,6 +69,7 @@
                         <th class="user-table-header-cell">Name</th>
                         <th class="user-table-header-cell">Members</th>
                         <th class="user-table-header-cell">Day & Time</th>
+                        <th class="user-table-header-cell">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -79,11 +86,15 @@
                                         ? \Carbon\Carbon::createFromFormat('H:i:s', $user->user_meeting_time)->format('g:i A')
                                         : null
                                 }}
-                            </td>                            
+                            </td>
+                            <td class="user-table-cell">
+                                <!-- View button -->
+                                <a href="{{ route('users.show', $user->id) }}" class="btn btn-view-leader">View</a>
+                            </td>
                         </tr>
                     @empty
                         <tr class="user-table-row">
-                            <td colspan="3" class="user-table-empty text-center">No female D-Group Leaders found.</td>
+                            <td colspan="4" class="user-table-empty text-center">No female D-Group Leaders found.</td>
                         </tr>
                     @endforelse
                     <tr class="user-table-row total-row">
@@ -93,6 +104,7 @@
                             <strong>Total D-Group Leaders: {{ $femaleDGroupLeaders->count() }}</strong><br>
                             <strong>Total Members: {{ $totalFemaleMembers }}</strong>
                         </td>
+                        <td class="user-table-cell"></td> <!-- Empty cell for the "Action" column -->
                     </tr>
                 </tbody>
             </table>

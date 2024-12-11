@@ -3,7 +3,7 @@
 @section('title', 'Add Blog')
 
 @section('styles')
-    <link rel="stylesheet" href="{{ asset('css/addBlog.css?v=2.1') }}">
+    <link rel="stylesheet" href="{{ asset('css/addBlog.css?v=2.2') }}">
     <script src="https://cdn.ckeditor.com/4.16.1/standard/ckeditor.js"></script>
 @endsection
 
@@ -75,6 +75,6 @@
             <button type="submit" class="btn-submit">Save</button>
         </form>
         
-        <script src="{{ asset('js/addBlog.js?v=2.1') }}"></script>
+        <script src="{{ asset('js/addBlog.js?v=2.2') }}"></script>
     </div>
 @endsection

@@ -89,6 +89,18 @@ class UserController extends Controller
         ));
     }
 
+    public function show($id)
+    {
+        // Fetch the user by ID
+        $user = User::findOrFail($id);
+
+        // Fetch related information (e.g., members for a D-Group Leader)
+        $members = User::where('user_dgroup_leader', $user->id)->get();
+
+        // Pass the data to a view
+        return view('pages.userDetails', compact('user', 'members'));
+    }
+
     public function export()
     {
         return Excel::download(new DGroupLeadersExport, 'dgroup-leaders.xlsx');
