@@ -124,6 +124,7 @@
                     <tr class="user-table-header">
                         <th class="user-table-header-cell">Name</th>
                         <th class="user-table-header-cell">Ministry</th>
+                        <th class="user-table-header-cell">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -131,6 +132,10 @@
                         <tr class="user-table-row">
                             <td class="user-table-cell">{{ ucwords(strtolower($user->user_fname)) }} {{ ucwords(strtolower($user->user_lname)) }}</td>
                             <td class="user-table-cell">{{ $user->user_ministry }}</td>
+                            <td class="user-table-cell">
+                                <!-- View button -->
+                                <a href="{{ route('users.show', $user->id) }}" class="btn btn-view-leader">View</a>
+                            </td>
                         </tr>
                     @empty
                         <tr class="user-table-row">
