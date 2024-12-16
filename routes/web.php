@@ -50,3 +50,6 @@ Route::put('/blogs/{id}', [BlogController::class, 'update'])->name('blogs.update
 Route::delete('/blogs/{id}', [BlogController::class, 'destroy'])->name('blogs.destroy'); // Route for deleting a blog
 Route::patch('/blogs/{id}/approve', [BlogController::class, 'approve'])->name('blogs.approve');
 
+// USER CONTROLLER
+Route::get('/profile/edit/{id}', [UserController::class, 'edit'])->name('profile.edit');
+Route::post('/profile/update/{id}', [UserController::class, 'update'])->name('profile.update');

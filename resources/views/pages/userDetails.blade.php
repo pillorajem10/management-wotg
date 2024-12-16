@@ -3,7 +3,7 @@
 @section('title', 'User Details')
 
 @section('styles')
-    <link rel="stylesheet" href="{{ asset('css/userDetails.css?v=2.2') }}">
+    <link rel="stylesheet" href="{{ asset('css/userDetails.css?v=2.3') }}">
 @endsection
 
 @section('content')
@@ -22,12 +22,16 @@
                     <thead>
                         <tr>
                             <th>Name</th>
+                            <th>Actions</th> <!-- New Column for Actions -->
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($members as $index => $member)
                             <tr>
                                 <td>{{ ucwords(strtolower($member->user_fname)) }} {{ ucwords(strtolower($member->user_lname)) }}</td>
+                                <td>
+                                    <a href="{{ route('profile.edit', $member->id) }}" class="btn btn-primary btn-sm">Edit</a>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>

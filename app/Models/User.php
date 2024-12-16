@@ -32,7 +32,10 @@ class User extends Authenticatable
         'user_already_a_dgroup_member',
         'approval_token',
         'user_profile_picture',
+        'user_meeting_day',       
+        'user_meeting_time',      
     ];
+
 
     protected $hidden = [
         'password',

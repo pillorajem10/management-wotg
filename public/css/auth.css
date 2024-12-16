@@ -1,14 +1,25 @@
+/* Default body styles */
 body {
     background-image: url('../images/wotg-background.jpg'); /* Adjust the path if necessary */
-    background-size: cover; /* Cover the entire viewport */
-    background-position: center; /* Center the background image */
-    height: 100vh; /* Ensure the body takes the full height of the viewport */
-    margin: 0; /* Remove default margin */
-    display: flex; /* Enable flexbox to center the auth container */
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
+    background-size: cover;
+    background-position: center;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-family: Arial, sans-serif;
 }
+
+/* For the profile edit or signup pages */
+body.full-height {
+    height: 100%;
+}
+
+/* For all other routes */
+body.full-viewport {
+    height: 100vh;
+}
+
 
 .auth-container {
     background-color: rgba(255, 255, 255, 0.7);
@@ -16,7 +27,6 @@ body {
     display: flex;
     border-radius: 5px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    width: 300px;
     margin: 20px
 }
 
@@ -31,9 +41,13 @@ body {
 }
 
 .signup-form {
-    display: grid;
-    grid-template-columns: 1fr 1fr; /* Two equal columns */
-    gap: 20px; /* Space between columns */
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+}
+
+.signup-form div {
+    width: 17rem;
 }
 
 .form-group {
@@ -62,3 +76,61 @@ body {
     background-color: #e74c3c;
 }
 
+#dgroup-leader-note {
+    display: none;
+    margin-top: 10px;
+    font-style: italic;
+    color: #ff0000;
+    font-size: 12px;
+}
+
+#dgroup-member-note {
+    display: none;
+    margin-top: 10px;
+    font-style: italic;
+    color: #ff0000;
+    font-size: 12px;
+}
+
+/*
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    visibility: visible;
+    opacity: 1;
+    transition: visibility 0s, opacity 0.5s linear;
+}
+
+.loading-spinner {
+    border: 4px solid #f3f3f3; 
+    border-top: 4px solid #c0392b; 
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 2s linear infinite;
+}
+
+
+/* Spin Animation 
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+*/
+@media (max-width: 649px) {
+    .signup-form div {
+        width: 100%;
+    }
+
+    body {
+        height: 100%;
+    }
+}
