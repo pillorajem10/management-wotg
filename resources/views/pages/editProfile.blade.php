@@ -34,7 +34,7 @@
         @endif
 
         <div class="mt-3">
-            <a href="{{ route('users.show', $user->id) }}" class="btn btn-secondary">Back to Dashboard</a>
+            <a href="{{ route('users.index') }}" class="btn btn-secondary">Back to Dashboard</a>
         </div>
 
         <form action="{{ route('profile.update', $user->id) }}" method="POST" id="profile-auth-form">

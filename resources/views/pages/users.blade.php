@@ -38,8 +38,8 @@
                                 }}
                             </td>
                             <td class="user-table-cell">
-                                <!-- View button -->
                                 <a href="{{ route('users.show', $user->id) }}" class="btn btn-view-leader">View</a>
+                                <a href="{{ route('profile.edit', $user->id) }}" class="btn btn-view-leader">Edit</a>
                             </td>
                         </tr>
                     @empty
@@ -88,8 +88,8 @@
                                 }}
                             </td>
                             <td class="user-table-cell">
-                                <!-- View button -->
                                 <a href="{{ route('users.show', $user->id) }}" class="btn btn-view-leader">View</a>
+                                <a href="{{ route('profile.edit', $user->id) }}" class="btn btn-view-leader">Edit</a>
                             </td>
                         </tr>
                     @empty
@@ -133,8 +133,8 @@
                             <td class="user-table-cell">{{ ucwords(strtolower($user->user_fname)) }} {{ ucwords(strtolower($user->user_lname)) }}</td>
                             <td class="user-table-cell">{{ $user->user_ministry }}</td>
                             <td class="user-table-cell">
-                                <!-- View button -->
                                 <a href="{{ route('users.show', $user->id) }}" class="btn btn-view-leader">View</a>
+                                <a href="{{ route('profile.edit', $user->id) }}" class="btn btn-view-leader">Edit</a>
                             </td>
                         </tr>
                     @empty

@@ -108,26 +108,29 @@ class UserController extends Controller
         return Excel::download(new DGroupLeadersExport, 'dgroup-leaders.xlsx');
     }
 
-    public function edit()
+    // UserController.php
+    public function edit($id)
     {
-        $user = auth()->user();  // Get the current authenticated user
-    
-        // Check if the user already has a D-Group Leader ID set
+        // Find the user by the given ID
+        $user = User::findOrFail($id);
+
+        // Check if the user has a D-Group Leader ID set
         $dgroup_leader_email = null;
         if ($user->user_dgroup_leader) {
             $dgroup_leader = User::find($user->user_dgroup_leader); // Assuming user_dgroup_leader stores the leader's user ID
             if ($dgroup_leader) {
-                $dgroup_leader_email = $dgroup_leader->email;  // Get the leader's email
+                $dgroup_leader_email = $dgroup_leader->email; // Get the leader's email
             }
         }
-    
+
         return view('pages.editProfile', compact('user', 'dgroup_leader_email'));
     }
+
     
 
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
-        $user = auth()->user();  // Get the current authenticated user
+        $user = User::findOrFail($id);
     
         // Validate the incoming data
         $validated = $request->validate([
@@ -145,7 +148,7 @@ class UserController extends Controller
             'user_country' => 'required|string|max:255',
             'user_city' => 'required|string|max:255',
             'user_meeting_day' => 'required|string|in:Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday',
-            'user_meeting_time' => 'required|date_format:H:i',
+            'user_meeting_time' => 'required',
         ]);        
     
         // Check if the D-Group Leader email has changed
