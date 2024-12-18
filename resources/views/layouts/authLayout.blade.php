@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title') | Word On The Go</title>
     <link rel="icon" href="{{ asset('images/wotg-icon.ico') }}" type="image/x-icon">
-    <link rel="stylesheet" href="{{ asset('css/auth.css?v=7.9') }}">
+    <link rel="stylesheet" href="{{ asset('css/auth.css?v=2.4') }}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
     <meta property="og:title" content="Word On The Go" />
@@ -20,7 +20,7 @@
     <meta name="twitter:description" content="Welcome to Word On The Go, your online destination for uplifting church blogs.">
     <meta name="twitter:image" content="{{ asset('images/wotg-logo-with-bg.jpeg') }}">
 </head>
-<body class="{{ Request::is('profile/edit') || Request::is('signup') ? 'full-height' : 'full-viewport' }}">
+<body class="{{ Request::is('profile/edit') ? 'full-height' : 'full-viewport' }}">
     <div class="auth-container">
         @yield('content')
     </div>

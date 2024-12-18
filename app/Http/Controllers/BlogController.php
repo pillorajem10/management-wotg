@@ -84,7 +84,10 @@ class BlogController extends Controller
             'blog_release_date_and_time' => $request->blog_release_date_and_time, // Save release date and time
         ]);
     
-        return redirect()->route('blogs.index')->with('success', 'Blog created successfully!');
+        return redirect()->route('blogs.index', [
+            'search' => session('blog_search_term', ''),
+            'page' => session('blog_current_page', 1)
+        ])->with('success', 'Blog updated successfully!');        
     }        
     
     // Show the form for editing a specific blog
@@ -128,7 +131,10 @@ class BlogController extends Controller
     
         $blog->save(); // Save the changes
     
-        return redirect()->route('blogs.index')->with('success', 'Blog updated successfully!');
+        return redirect()->route('blogs.index', [
+            'search' => session('blog_search_term', ''),
+            'page' => session('blog_current_page', 1)
+        ])->with('success', 'Blog updated successfully!');        
     }
            
 
@@ -138,7 +144,10 @@ class BlogController extends Controller
         $blog = Blog::findOrFail($id); // Fetch the specific blog or fail if not found
         $blog->delete(); // Delete the blog
 
-        return redirect()->route('blogs.index')->with('success', 'Blog deleted successfully!');
+        return redirect()->route('blogs.index', [
+            'search' => session('blog_search_term', ''),
+            'page' => session('blog_current_page', 1)
+        ])->with('success', 'Blog updated successfully!');        
     }
 
     public function approve($id)
@@ -147,7 +156,10 @@ class BlogController extends Controller
         $blog->blog_approved = !$blog->blog_approved; // Toggle approval status
         $blog->save(); // Save the changes
 
-        return redirect()->route('blogs.index')->with('success', 'Blog approval status updated successfully!');
+        return redirect()->route('blogs.index', [
+            'search' => session('blog_search_term', ''),
+            'page' => session('blog_current_page', 1)
+        ])->with('success', 'Blog updated successfully!');
     }
     
     public function sendDailyEmail()

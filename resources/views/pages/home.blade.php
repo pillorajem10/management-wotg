@@ -3,7 +3,7 @@
 @section('title', 'Dashboard')
 
 @section('styles')
-    <link rel="stylesheet" href="{{ asset('css/dashboard.css?v=2.3') }}">
+    <link rel="stylesheet" href="{{ asset('css/dashboard.css?v=2.4') }}">
 @endsection
 
 <title>@yield('title') || Word On The Go</title>
@@ -30,7 +30,7 @@
         @if($verseOfTheDay)
             <blockquote>
                 <p>{{ $verseOfTheDay->text }}</p>
-                <footer>— {{ $verseOfTheDay->reference }}</footer>
+                <p>— {{ $verseOfTheDay->reference }}</p>
             </blockquote>
         @else
             <p>No verse available today.</p>
