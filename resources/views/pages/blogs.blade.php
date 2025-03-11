@@ -50,7 +50,7 @@
                             </td>
                             <td class="blog-table-cell">
                                 @if($blog->blog_thumbnail)
-                                    <img src="{{ asset('uploads/' . $blog->blog_thumbnail) }}" alt="{{ $blog->blog_title }}" style="max-width: 100px; height: auto;">
+                                    <img src="{{ asset('uploads/' . $blog->blog_thumbnail) }}" alt="{{ $blog->blog_title }}" style="max-width: 100px; height: auto;" loading="lazy" onload="this.style.filter='none';">
                                 @else
                                     No Thumbnail
                                 @endif
