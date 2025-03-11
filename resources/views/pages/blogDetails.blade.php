@@ -31,8 +31,8 @@
 
         <div class="blog-content">
             <div class="blog-thumbnail">
-                @if($blog->blog_thumbnail)
-                    <img src="data:image/jpeg;base64,{{ base64_encode($blog->blog_thumbnail) }}" alt="{{ $blog->blog_title }}" class="thumbnail-image">
+                @if ($blog->blog_thumbnail)
+                    <img src="{{ asset('uploads/' . $blog->blog_thumbnail) }}" alt="{{ $blog->blog_title }}" class="thumbnail-image">
                 @else
                     <p class="no-thumbnail">No Thumbnail Available</p>
                 @endif

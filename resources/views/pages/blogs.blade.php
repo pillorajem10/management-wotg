@@ -50,11 +50,11 @@
                             </td>
                             <td class="blog-table-cell">
                                 @if($blog->blog_thumbnail)
-                                    <img src="data:image/jpeg;base64,{{ base64_encode($blog->blog_thumbnail) }}" alt="{{ $blog->blog_title }}" style="max-width: 100px; height: auto;">
+                                    <img src="{{ asset('uploads/' . $blog->blog_thumbnail) }}" alt="{{ $blog->blog_title }}" style="max-width: 100px; height: auto;">
                                 @else
                                     No Thumbnail
                                 @endif
-                            </td>
+                            </td>                            
                             <td class="blog-table-cell">
                                 @if($blog->blog_approved)
                                     <span class="text-success">&#10004;</span>

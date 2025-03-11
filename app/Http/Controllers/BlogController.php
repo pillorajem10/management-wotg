@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use App\Mail\DailyBlogReport; 
 use Carbon\Carbon; 
 use Illuminate\Support\Facades\Mail; 
-
+use Illuminate\Support\Facades\App;
 
 class BlogController extends Controller
 {
@@ -61,34 +61,55 @@ class BlogController extends Controller
         $request->validate([
             'blog_title' => 'required|string|max:255',
             'blog_body' => 'required|string',
-            'blog_intro' => 'required|string', // Validate blog_intro
-            'blog_thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate image
-            'blog_release_date_and_time' => 'nullable|date|unique:blogs,blog_release_date_and_time', // Validate unique release date and time
-        ], [
-            'blog_release_date_and_time.unique' => 'The Date you chose to release this blog is already taken. Please choose a different date and time.',
+            'blog_intro' => 'required|string',
+            'blog_thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'blog_release_date_and_time' => 'nullable|date|unique:blogs,blog_release_date_and_time',
         ]);
     
         // Handle the image upload if there's a thumbnail
-        $thumbnail = null;
+        $thumbnailName = null;
         if ($request->hasFile('blog_thumbnail')) {
-            $thumbnail = file_get_contents($request->file('blog_thumbnail')->getRealPath()); // Get binary content
+            $file = $request->file('blog_thumbnail');
+            $thumbnailName = time() . '_' . $file->getClientOriginalName(); // Unique filename
+    
+            // Define paths for Laravel & Node.js based on environment
+            if (App::environment('production')) {
+                $nodePath = '/var/www/community.wotgonline.com/wotg-social-api/uploads';
+            } else {
+                $nodePath = 'C:/Users/pc/projects/wotg-social-api/uploads';
+            }
+            $laravelPath = public_path('uploads'); // Laravel's storage: admin.wotgonline.com/uploads
+    
+            // Ensure both directories exist
+            if (!file_exists($laravelPath)) {
+                mkdir($laravelPath, 0777, true);
+            }
+    
+            if (!file_exists($nodePath)) {
+                mkdir($nodePath, 0777, true);
+            }
+    
+            // Save file in Laravel's uploads folder
+            $file->move($laravelPath, $thumbnailName);
+    
+            // Copy file to Node.js backend folder
+            copy($laravelPath . '/' . $thumbnailName, $nodePath . '/' . $thumbnailName);
         }
     
+        // Store only the filename in the database
         Blog::create([
             'blog_title' => $request->blog_title,
             'blog_body' => $request->blog_body,
-            'blog_intro' => $request->blog_intro, // Include blog_intro
-            'blog_thumbnail' => $thumbnail, // Store binary in longblob
-            'blog_creator' => auth()->id(), // Assuming user is logged in
-            'blog_is_hidden' => true, // Set default to true
-            'blog_release_date_and_time' => $request->blog_release_date_and_time, // Save release date and time
+            'blog_intro' => $request->blog_intro,
+            'blog_thumbnail' => $thumbnailName,
+            'blog_creator' => auth()->id(),
+            'blog_is_hidden' => true,
+            'blog_release_date_and_time' => $request->blog_release_date_and_time,
         ]);
     
-        return redirect()->route('blogs.index', [
-            'search' => session('blog_search_term', ''),
-            'page' => session('blog_current_page', 1)
-        ])->with('success', 'Blog updated successfully!');        
-    }        
+        return redirect()->route('blogs.index')->with('success', 'Blog created successfully!');
+    }
+          
     
     // Show the form for editing a specific blog
     public function edit($id)
@@ -103,9 +124,9 @@ class BlogController extends Controller
         $request->validate([
             'blog_title' => 'required|string|max:255',
             'blog_body' => 'required|string',
-            'blog_intro' => 'required|string', // Validate blog_intro
-            'blog_thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate image
-            'blog_release_date_and_time' => 'required|date|unique:blogs,blog_release_date_and_time,' . $id, // Unique validation ignoring the current blog
+            'blog_intro' => 'required|string',
+            'blog_thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'blog_release_date_and_time' => 'required|date|unique:blogs,blog_release_date_and_time,' . $id,
         ], [
             'blog_release_date_and_time.unique' => 'The Date you chose to release this blog is already taken. Please choose a different date and time.',
         ]);
@@ -114,11 +135,36 @@ class BlogController extends Controller
         $blog = Blog::findOrFail($id);
         $blog->blog_title = $request->blog_title;
         $blog->blog_body = $request->blog_body;
-        $blog->blog_intro = $request->blog_intro; // Update blog_intro
+        $blog->blog_intro = $request->blog_intro;
     
         // Handle the image upload if there's a new thumbnail
         if ($request->hasFile('blog_thumbnail')) {
-            $blog->blog_thumbnail = file_get_contents($request->file('blog_thumbnail')->getRealPath()); // Update with new thumbnail
+            $file = $request->file('blog_thumbnail');
+            $thumbnailName = time() . '_' . $file->getClientOriginalName(); // Unique filename
+    
+            // Define paths based on environment
+            $laravelPath = public_path('uploads'); // Laravel's public uploads folder
+            $nodePath = App::environment('production') 
+                ? '/var/www/community.wotgonline.com/wotg-social-api/uploads'  // Production path
+                : 'C:/Users/pc/projects/wotg-social-api/uploads'; // Local path
+    
+            // Ensure both directories exist
+            if (!file_exists($laravelPath)) {
+                mkdir($laravelPath, 0777, true);
+            }
+    
+            if (!file_exists($nodePath)) {
+                mkdir($nodePath, 0777, true);
+            }
+    
+            // Save file in Laravel's uploads folder
+            $file->move($laravelPath, $thumbnailName);
+    
+            // Copy file to Node.js backend folder
+            copy($laravelPath . '/' . $thumbnailName, $nodePath . '/' . $thumbnailName);
+            
+            // Store only the filename
+            $blog->blog_thumbnail = $thumbnailName;
         }
     
         // Update the release date and time
@@ -129,14 +175,15 @@ class BlogController extends Controller
             $blog->blog_approved = true;
         }
     
-        $blog->save(); // Save the changes
+        $blog->save();
     
         return redirect()->route('blogs.index', [
             'search' => session('blog_search_term', ''),
             'page' => session('blog_current_page', 1)
-        ])->with('success', 'Blog updated successfully!');        
+        ])->with('success', 'Blog updated successfully!');
     }
-           
+    
+             
 
     // Delete the specified blog
     public function destroy($id)

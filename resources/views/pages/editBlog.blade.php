@@ -78,7 +78,7 @@
 
             @if ($blog->blog_thumbnail)
                 <div class="form-group">
-                    <img id="image_preview" src="data:image/jpeg;base64,{{ base64_encode($blog->blog_thumbnail) }}" alt="Current Thumbnail" style="max-width: 300px; margin-top: 10px;">
+                    <img id="image_preview" src="{{ asset('uploads/' . $blog->blog_thumbnail) }}" alt="Current Thumbnail" style="max-width: 300px; margin-top: 10px;"></div>
                 </div>
             @endif
         
