@@ -63,28 +63,37 @@ class AuthController extends Controller
     }
 
 
-    // Handle login
     public function login(Request $request)
     {
-        // Validate the request
+        // Validate input
         $request->validate([
             'email' => 'required|string|email',
             'password' => 'required|string',
         ]);
     
-        // Prepare credentials for authentication
-        $credentials = $request->only('email', 'password');
+        // Find user
+        $user = User::where('email', $request->email)->first();
     
-        \Log::info('Attempting login for: ', $credentials);
-
-        if (Auth::attempt(['email' => $credentials['email'], 'password' => $credentials['password']])) {
-            // Authentication passed, redirect to intended page
-            return redirect()->intended('/');
+        if (!$user) {
+            return redirect()->route('auth.login')->with('error', 'User not found.');
         }
     
-        // If login fails
-        return redirect()->route('auth.login')->with('error', 'The credentials you provided do not match our records.');
-    }            
+        // ✅ Convert `$2a$` to `$2y$` before checking the hash
+        $hashedPassword = str_replace('$2a$', '$2y$', $user->password);
+    
+        // ✅ Check if the password matches the hash
+        if (!Hash::check($request->password, $hashedPassword)) {
+            return redirect()->route('auth.login')->with('error', 'Invalid credentials.');
+        }
+    
+        // ✅ If password is `$2a$`, rehash it as `$2y$` for Laravel compatibility
+        if (str_starts_with($user->password, '$2a$') && Hash::needsRehash($user->password)) {
+            $user->update(['password' => Hash::make($request->password)]);
+        }
+    
+        Auth::login($user);
+        return redirect()->intended('/');
+    }        
 
     // Handle logout
     public function logout()
