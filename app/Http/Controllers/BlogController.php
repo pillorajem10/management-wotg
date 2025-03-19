@@ -70,7 +70,9 @@ class BlogController extends Controller
         $thumbnailName = null;
         if ($request->hasFile('blog_thumbnail')) {
             $file = $request->file('blog_thumbnail');
-            $thumbnailName = time() . '_' . $file->getClientOriginalName(); // Unique filename
+    
+            // Generate a unique WebP filename
+            $thumbnailName = time() . '.webp';
     
             // Define paths for Laravel & Node.js based on environment
             if (App::environment('production')) {
@@ -78,25 +80,47 @@ class BlogController extends Controller
             } else {
                 $nodePath = 'C:/Users/pc/projects/wotg-social-api/uploads';
             }
-            $laravelPath = public_path('uploads'); // Laravel's storage: admin.wotgonline.com/uploads
+            $laravelPath = public_path('uploads');
     
-            // Ensure both directories exist
+            // Ensure directories exist
             if (!file_exists($laravelPath)) {
                 mkdir($laravelPath, 0777, true);
             }
-    
             if (!file_exists($nodePath)) {
                 mkdir($nodePath, 0777, true);
             }
     
-            // Save file in Laravel's uploads folder
-            $file->move($laravelPath, $thumbnailName);
+            // ✅ Convert image to WebP using GD Library
+            $imagePath = $file->getPathname();
+            $imageType = exif_imagetype($imagePath); // Get image type
     
-            // Copy file to Node.js backend folder
+            // Create image resource from the uploaded file
+            switch ($imageType) {
+                case IMAGETYPE_JPEG:
+                    $image = imagecreatefromjpeg($imagePath);
+                    break;
+                case IMAGETYPE_PNG:
+                    $image = imagecreatefrompng($imagePath);
+                    imagepalettetotruecolor($image); // Convert PNG palette to true color
+                    imagealphablending($image, true);
+                    imagesavealpha($image, true);
+                    break;
+                case IMAGETYPE_GIF:
+                    $image = imagecreatefromgif($imagePath);
+                    break;
+                default:
+                    return redirect()->route('blogs.index')->with('error', 'Invalid image format.');
+            }
+    
+            // Save the converted WebP image
+            imagewebp($image, $laravelPath . '/' . $thumbnailName, 90);
+            imagedestroy($image); // Free memory
+    
+            // Copy WebP file to Node.js backend folder
             copy($laravelPath . '/' . $thumbnailName, $nodePath . '/' . $thumbnailName);
         }
     
-        // Store only the filename in the database
+        // Store only the WebP filename in the database
         Blog::create([
             'blog_title' => $request->blog_title,
             'blog_body' => $request->blog_body,
@@ -118,7 +142,6 @@ class BlogController extends Controller
         return view('pages.editBlog', compact('blog')); // Pass the blog data to the view
     }
 
-    // Update the specified blog in storage
     public function update(Request $request, $id)
     {
         $request->validate([
@@ -130,7 +153,7 @@ class BlogController extends Controller
         ], [
             'blog_release_date_and_time.unique' => 'The Date you chose to release this blog is already taken. Please choose a different date and time.',
         ]);
-        
+    
         // Find the blog and update its details
         $blog = Blog::findOrFail($id);
         $blog->blog_title = $request->blog_title;
@@ -140,7 +163,9 @@ class BlogController extends Controller
         // Handle the image upload if there's a new thumbnail
         if ($request->hasFile('blog_thumbnail')) {
             $file = $request->file('blog_thumbnail');
-            $thumbnailName = time() . '_' . $file->getClientOriginalName(); // Unique filename
+    
+            // Generate a unique WebP filename
+            $thumbnailName = time() . '.webp';
     
             // Define paths based on environment
             $laravelPath = public_path('uploads'); // Laravel's public uploads folder
@@ -152,17 +177,39 @@ class BlogController extends Controller
             if (!file_exists($laravelPath)) {
                 mkdir($laravelPath, 0777, true);
             }
-    
             if (!file_exists($nodePath)) {
                 mkdir($nodePath, 0777, true);
             }
     
-            // Save file in Laravel's uploads folder
-            $file->move($laravelPath, $thumbnailName);
+            // ✅ Convert image to WebP using GD Library
+            $imagePath = $file->getPathname();
+            $imageType = exif_imagetype($imagePath); // Get image type
     
-            // Copy file to Node.js backend folder
+            // Create image resource from the uploaded file
+            switch ($imageType) {
+                case IMAGETYPE_JPEG:
+                    $image = imagecreatefromjpeg($imagePath);
+                    break;
+                case IMAGETYPE_PNG:
+                    $image = imagecreatefrompng($imagePath);
+                    imagepalettetotruecolor($image);
+                    imagealphablending($image, true);
+                    imagesavealpha($image, true);
+                    break;
+                case IMAGETYPE_GIF:
+                    $image = imagecreatefromgif($imagePath);
+                    break;
+                default:
+                    return redirect()->route('blogs.index')->with('error', 'Invalid image format.');
+            }
+    
+            // Save the converted WebP image
+            imagewebp($image, $laravelPath . '/' . $thumbnailName, 90);
+            imagedestroy($image); // Free memory
+    
+            // Copy WebP file to Node.js backend folder
             copy($laravelPath . '/' . $thumbnailName, $nodePath . '/' . $thumbnailName);
-            
+    
             // Store only the filename
             $blog->blog_thumbnail = $thumbnailName;
         }
