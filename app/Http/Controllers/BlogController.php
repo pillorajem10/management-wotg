@@ -11,9 +11,22 @@ use App\Mail\DailyBlogReport;
 use Carbon\Carbon; 
 use Illuminate\Support\Facades\Mail; 
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Http;
+
 
 class BlogController extends Controller
 {
+    private function clearNodeCache() {
+        $nodeApiUrl = env('NODE_API_URL', 'http://localhost:5000/blogs/clear-blog-cache');
+    
+        try {
+            $response = Http::post($nodeApiUrl);
+            \Log::info('✅ Node.js cache cleared successfully.');
+        } catch (\Exception $e) {
+            \Log::error('❌ Failed to clear Node.js cache: ' . $e->getMessage());
+        }
+    }
+
     public function __construct()
     {
         $this->middleware('auth'); // Ensure the user is authenticated
@@ -130,7 +143,9 @@ class BlogController extends Controller
             'blog_is_hidden' => true,
             'blog_release_date_and_time' => $request->blog_release_date_and_time,
         ]);
-    
+
+        $this->clearNodeCache(); // ✅ Clear Node.js Cache
+
         return redirect()->route('blogs.index')->with('success', 'Blog created successfully!');
     }
           
@@ -223,6 +238,7 @@ class BlogController extends Controller
         }
     
         $blog->save();
+        $this->clearNodeCache(); // ✅ Clear Node.js Cache
     
         return redirect()->route('blogs.index', [
             'search' => session('blog_search_term', ''),
@@ -238,6 +254,8 @@ class BlogController extends Controller
         $blog = Blog::findOrFail($id); // Fetch the specific blog or fail if not found
         $blog->delete(); // Delete the blog
 
+        $this->clearNodeCache(); // ✅ Clear Node.js Cache
+
         return redirect()->route('blogs.index', [
             'search' => session('blog_search_term', ''),
             'page' => session('blog_current_page', 1)
@@ -249,6 +267,8 @@ class BlogController extends Controller
         $blog = Blog::findOrFail($id); // Fetch the specific blog or fail if not found
         $blog->blog_approved = !$blog->blog_approved; // Toggle approval status
         $blog->save(); // Save the changes
+
+        $this->clearNodeCache(); // ✅ Clear Node.js Cache
 
         return redirect()->route('blogs.index', [
             'search' => session('blog_search_term', ''),
