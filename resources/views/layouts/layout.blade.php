@@ -178,7 +178,7 @@
 <body>
     <nav class="navbar">
         <a href="/" class="logo-link">
-            <img src="{{ asset('images/wotg-logo.png') }}" alt="WOTG Logo" style="width: 3rem;">
+            <img src="{{ asset('images/wotg-logo.webp') }}" alt="WOTG Logo" style="width: 3rem;">
         </a>
     
         <!-- Hamburger Menu -->

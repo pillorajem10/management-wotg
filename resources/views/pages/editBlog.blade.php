@@ -3,7 +3,7 @@
 @section('title', 'Edit Blog')
 
 @section('styles')
-    <link rel="stylesheet" href="{{ asset('css/editBlog.css?v=2.4') }}">
+    <link rel="stylesheet" href="{{ asset('css/editBlog.css?v=2.6') }}">
     <script src="https://cdn.ckeditor.com/4.16.1/standard/ckeditor.js"></script>
 @endsection
 
@@ -33,7 +33,7 @@
 
         <form action="{{ route('blogs.update', $blog->id) }}" method="POST" enctype="multipart/form-data" class="blog-form">
             @csrf
-            @method('PUT') <!-- Use PUT for update -->
+            @method('PUT')
 
             <div class="form-group">
                 <label for="blog_title" class="form-label">Blog Title</label>
@@ -69,7 +69,7 @@
             </div>
 
             <div class="form-group">
-                <label for="blog_thumbnail" class="form-label">Thumbnail (optional)</label>
+                <label for="blog_thumbnail" class="form-label">Thumbnail</label>
                 <input type="file" name="blog_thumbnail" id="blog_thumbnail" class="form-file" accept="image/*">
                 @error('blog_thumbnail')
                     <div class="text-danger">{{ $message }}</div>
@@ -87,6 +87,6 @@
             </button>
         </form>    
 
-        <script src="{{ asset('js/editBlog.js?v=2.4') }}"></script>
+        <script src="{{ asset('js/editBlog.js?v=2.6') }}"></script>
     </div>
 @endsection

@@ -1,6 +1,6 @@
 /* Default body styles */
 body {
-    background-image: url('../images/wotg-background.jpg'); /* Adjust the path if necessary */
+    background-image: url('../images/wotg-background.webp'); /* Adjust the path if necessary */
     background-size: cover;
     background-position: center;
     margin: 0;

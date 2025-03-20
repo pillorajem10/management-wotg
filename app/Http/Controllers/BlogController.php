@@ -75,7 +75,7 @@ class BlogController extends Controller
             'blog_title' => 'required|string|max:255',
             'blog_body' => 'required|string',
             'blog_intro' => 'required|string',
-            'blog_thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'blog_thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'blog_release_date_and_time' => 'nullable|date|unique:blogs,blog_release_date_and_time',
         ]);
     

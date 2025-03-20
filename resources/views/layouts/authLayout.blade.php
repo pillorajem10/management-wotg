@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title') | Word On The Go</title>
     <link rel="icon" href="{{ asset('images/wotg-icon.ico') }}" type="image/x-icon">
-    <link rel="stylesheet" href="{{ asset('css/auth.css?v=2.4') }}">
+    <link rel="stylesheet" href="{{ asset('css/auth.css?v=2.6') }}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
     <meta property="og:title" content="Word On The Go" />

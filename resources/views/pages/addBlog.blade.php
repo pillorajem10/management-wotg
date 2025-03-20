@@ -3,7 +3,7 @@
 @section('title', 'Add Blog')
 
 @section('styles')
-    <link rel="stylesheet" href="{{ asset('css/addBlog.css?v=2.5') }}">
+    <link rel="stylesheet" href="{{ asset('css/addBlog.css?v=2.6') }}">
     <script src="https://cdn.ckeditor.com/4.16.1/standard/ckeditor.js"></script>
 @endsection
 
@@ -54,16 +54,14 @@
         
             <div class="form-group">
                 <label for="blog_thumbnail" class="form-label">Thumbnail</label>
-                <input type="file" name="blog_thumbnail" id="blog_thumbnail" class="form-file" accept="image/*">
+                <input type="file" name="blog_thumbnail" id="blog_thumbnail" class="form-file" accept="image/*" required>
                 @error('blog_thumbnail')
                     <div class="text-danger">{{ $message }}</div>
                 @enderror
             </div>
 
             <div class="form-group">
-                @if (old('blog_thumbnail'))
-                    <p>Selected File: <strong>{{ old('blog_thumbnail') }}</strong></p>
-                @endif
+                <img id="image_preview" src="" alt="Image Preview" style="display:none; max-width: 300px; margin-top: 10px;">
             </div>
         
             <div class="form-group">
@@ -76,5 +74,7 @@
         
             <button type="submit" class="btn-submit">Save</button>
         </form>
+        
+        <script src="{{ asset('js/addBlog.js?v=2.6') }}"></script>
     </div>
 @endsection
